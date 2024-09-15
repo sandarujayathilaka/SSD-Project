@@ -21,19 +21,33 @@ $pass = $_POST['password'];
 // Hash the password 
 $hashedPassword = password_hash($pass, PASSWORD_BCRYPT);
 
-// Handle file upload
 $target_dir = "../../images/UserProfileIMAGES/uploads/";
-$target_file = $target_dir . basename($_FILES["file"]["name"]);
 
+// Sanitize the file name
+$filename = basename($_FILES["file"]["name"]);
+$filename = preg_replace("/[^a-zA-Z0-9\._-]/", "", $filename);
+
+// Create unique file name to avoid overwriting
+$target_file = $target_dir . uniqid() . "_" . $filename;
+
+// Validate file type
+$fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+$allowedTypes = array('jpg', 'jpeg', 'png', 'gif');
+if (!in_array($fileType, $allowedTypes)) {
+    die("Invalid file type.");
+}
+
+// Move the uploaded file to the target directory
 if (isset($_FILES["file"])) {
     if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-        echo "The file " . basename($_FILES["file"]["name"]) . " is uploaded.";
+        echo "The file " . $filename . " is uploaded.";
     } else {
         echo "Error while uploading your file.";
     }
 } else {
     echo "File not available";
 }
+
 
 echo('<br>');
 echo($target_file);
