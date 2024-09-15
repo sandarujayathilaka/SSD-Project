@@ -4,20 +4,22 @@ if (!isset($_SESSION['loggedin'])) {
     header('Location: ../../html/UserProfileHTML/Login.html');
     exit;
 }
+?>
 
+<?php
 require "config.php";
 
-$ID = $_GET["id"] ?? null;
+if (isset($_GET["id"])) {
+    $ID = $_GET["id"];
 
-if ($ID) {
-    
     $stmt = $con->prepare("SELECT * FROM `adminacc` WHERE `ID` = ?");
-    $stmt->bind_param("i", $ID);
+    $stmt->bind_param("i", $ID); 
+
     $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
+    $res = $stmt->get_result();
+
+    if ($res->num_rows > 0) {
+        $row = $res->fetch_assoc();
         $name = $row['Admin_Name'];
         $nic = $row['NIC'];
         $uname = $row['UserName'];
@@ -27,12 +29,10 @@ if ($ID) {
         header("Location:./adminAcc.php");
         exit;
     }
-    
+
     $stmt->close();
-} else {
-    header("Location:./adminAcc.php");
-    exit;
 }
+$con->close();
 ?>
 
 <!DOCTYPE html>
@@ -46,11 +46,12 @@ if ($ID) {
     <link rel="stylesheet" href="../../css/Admin/recipe.css">
 </head>
 <body>
+
 <nav>
-    <div id="logbtn">
-        <p id="note">Administrator : <?=$_SESSION['name']?></p>
-        <a href="logout.php"><button class="log">Logout</button></a>
-    </div>
+<div id="logbtn">
+    <p id="note">Administrator : <?= $_SESSION['name'] ?></p>
+    <a href="logout.php"><button class="log">Logout</button></a>
+</div>
 </nav>
 
 <div id="verticalnav">
@@ -58,7 +59,7 @@ if ($ID) {
         <img id="logo" src="../../images/adminlogo.png">
     </div>
     <ul>
-        <li class="list"><a href="./dashboard.php"><img id="img1" src="../../images/12.png"> Dashboard</a></li>                             
+        <li class="list"><a href="./dashboard.php"><img id="img1" src="../../images/12.png"> Dashboard</a></li>
         <li class="list"><a href="./admUser.php"><img id="img1" src="../../images/user.png"> Users</a></li>
         <li class="list"><a href="./admrecipe.php"><img id="img1" src="../../images/recipe.png"> Categories</a></li>
         <li class="list"><a href="./admNutri.php"><img id="img1" src="../../images/medi1.png"> Nutritionists</a></li>
@@ -68,26 +69,28 @@ if ($ID) {
     </ul>
 </div>
 
-<form id="recipe" method="POST" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+<form id="recipe" method="POST" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     <div id="formdiv">
         <label class="formele">ID :</label><br><br>
-        <input type="text" name="id" value="<?php echo htmlspecialchars($ID); ?>" readonly><br><br>
+        <input type="text" name="id" value="<?php echo $ID ?>" readonly><br><br>
         <label class="formele">Name :</label><br><br>
-        <input type="text" class="formele" id="name" name="name" required value="<?php echo htmlspecialchars($name); ?>"><br><br>
+        <input type="text" class="formele" id="name" name="name" required value="<?php echo $name ?>"><br><br>
         <label class="formele">NIC :</label><br><br>
-        <input type="text" class="formele" id="nic" name="nic" required value="<?php echo htmlspecialchars($nic); ?>"><br><br>
+        <input type="text" class="formele" id="nic" name="nic" required value="<?php echo $nic ?>"><br><br>
         <label class="formele">User Name :</label><br><br>
-        <input type="text" class="formele" id="username" name="username" required value="<?php echo htmlspecialchars($uname); ?>"><br><br>
+        <input type="text" class="formele" id="username" name="username" required value="<?php echo $uname ?>"><br><br>
         <label class="formele">Password :</label><br><br>
-        <input type="password" class="formele" id="password" name="password" required value="<?php echo htmlspecialchars($pword); ?>"><br><br>
-        <img src="<?php echo htmlspecialchars($url); ?>" alt="Profile Picture" style="width:100px;height:125px;"><br><br>
-        <input type="hidden" name="exurl" value="<?php echo htmlspecialchars($url); ?>"><br><br>
-        Profile Picture: <input type="file" id="img" name="file" required><br><br>
+        <input type="password" class="formele" id="password" name="password" required value="<?php echo $pword ?>"><br><br>
+        <img src="<?php echo $url ?>" alt="<?php echo $url ?>" style="width:100px;height:125px;"><br><br>
+        <input type="hidden" name="exurl" value="<?php echo $url ?>"><br><br>
+        Profile Picture : <input type="file" id="img" name="file" required><br><br>
         <input type="submit" id="submit" name="submit" value="Update">
     </div>
 </form>
 
 <?php
+require "config.php";
+
 if (isset($_POST["submit"])) {
     $id = $_POST["id"];
     $name = $_POST["name"];
@@ -95,41 +98,54 @@ if (isset($_POST["submit"])) {
     $uname = $_POST["username"];
     $pword = $_POST["password"];
     $exurl = $_POST["exurl"];
-    
+
+    // Handle file upload
     $fileName = $_FILES['file']['name'];
     $fileTempName = $_FILES['file']['tmp_name'];
-    $fileError = $_FILES['file']['error'];
-    $fileExt = pathinfo($fileName, PATHINFO_EXTENSION);
-    $allowedExtensions = ['png', 'jpg', 'jpeg'];
-    
-    if (in_array($fileExt, $allowedExtensions)) {
-        $target_dir = "../../Images/";
-        $target_file = $target_dir . time() . "-" . basename($fileName);
-        
-        if (move_uploaded_file($fileTempName, $target_file)) {
-            if (unlink($exurl)) {
-                // Update record in database
+    $fileSize = $_FILES['file']['size'];
+    $fileError = $_FILES['file']['size'];
+    $fileType = $_FILES['file']['type'];
+    $fileExt = explode(".", $fileName);
+    $realFile = strtolower(end($fileExt));
+
+    if (unlink($exurl)) {
+        // File deleted
+    } else {
+        echo "There was an error deleting the image";
+        exit;
+    }
+
+    $target_dir = "../../Images/";
+    $target_file = $target_dir . time() . "-" . basename($_FILES["file"]["name"]);
+
+    if (isset($_FILES["file"])) {
+        $allowed = array('png', 'jpg', 'jpeg');
+
+        if (in_array($realFile, $allowed)) {
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+                echo "<script>alert('The file " . basename($_FILES["file"]["name"]) . " is uploaded.')</script>";
+
+                // Prepared statement for UPDATE query
                 $stmt = $con->prepare("UPDATE `adminacc` SET `Admin_Name`=?, `NIC`=?, `UserName`=?, `Pword`=?, `Link`=? WHERE `ID` = ?");
                 $stmt->bind_param("sssssi", $name, $nic, $uname, $pword, $target_file, $id);
-                
+
                 if ($stmt->execute()) {
                     header("Location: ./adminAcc.php?msg=success");
-                    exit();
                 } else {
-                    echo "Error: " . $stmt->error;
+                    echo "Error: " . $con->error;
                 }
-                
+
                 $stmt->close();
             } else {
-                echo "There was an error deleting the old image.";
+                echo "Error while uploading your file.";
             }
         } else {
-            echo "Error while uploading your file.";
+            echo '<script>alert("Wrong file type. Please re-enter details and upload the file again.");</script>';
         }
     } else {
-        echo '<script>alert("Invalid file type. Please upload a PNG, JPG, or JPEG file.");</script>';
+        echo "File not available";
     }
-    
+
     $con->close();
 }
 ?>
