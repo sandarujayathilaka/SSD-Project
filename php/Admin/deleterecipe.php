@@ -1,23 +1,36 @@
 <?php
 require "config.php";
 
-$ID =$_GET['id'];
 
-if(isset($ID)){
+$ID = $_GET['id'] ?? null;
 
-    $sql="DELETE FROM `recipe` WHERE $ID=`ID`";
+if ($ID) {
    
-
-    if($con->query($sql)){
-        echo 'Deleted Sucsessful';
+    $stmt = $con->prepare("DELETE FROM recipe WHERE ID = ?");
+    
+    if ($stmt) {
+    
+        $stmt->bind_param("i", $ID);
+        
+        if ($stmt->execute()) {
+         
+            header("Location: ./admrecipe.php");
+            exit();
+        } else {
+           
+            echo "Error: " . $stmt->error;
+        }
+        
+       
+        $stmt->close();
+    } else {
+   
+        echo "Error preparing statement: " . $con->error;
     }
-
-    else{
-        echo "Error :".$con->error;
-    }
-
-    header("Location:./admrecipe.php");
-    exit();
-
+} else {
+    echo "No ID provided.";
 }
 
+
+$con->close();
+?>

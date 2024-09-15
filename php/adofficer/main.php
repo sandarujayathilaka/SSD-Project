@@ -7,146 +7,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FOODOVEN</title>
     <link rel="stylesheet" href="../../css/index.css">
-	<link rel="stylesheet" href="../../css/forms.css">
+    <link rel="stylesheet" href="../../css/forms.css">
 </head>
 <body>
- 
+
     <nav>
-     
-   <ul>
-         <li><a href="main.php">Add Advertisement</a></li>
-		  <li><a href="addeditview_advertisement.php">View Existing</a></li>
-        
-         <li> <a href="../Admin/logout.php">Logout</a></li>
+        <ul>
+            <li><a href="main.php">Add Advertisement</a></li>
+            <li><a href="addeditview_advertisement.php">View Existing</a></li>
+            <li><a href="../Admin/logout.php">Logout</a></li>
+        </ul>
 
-     </ul>
-	 
+        <div id="banner">
+            <img src="../../Images/logo.png" class="logo1">
+        </div>
+    </nav>
 
-      
+    <br>
+    <br>
 
-     <div id="banner">
-         <img src="../../Images/logo.png"  class="logo1">
-     </div>
-      
-</nav>
-     <br>
-	 <br>
-	 
-	 <center>
-	<h2> Add/Update   Advertiesment</h2>
-	</center>
-	<br/>
-	<form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-         <br>
+    <center>
+        <h2>Add/Update Advertisement</h2>
+    </center>
+    <br/>
+
+    <form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+        <br>
         Advertisement ID :</br>
-        <input type="text" name="Oid"  placeholder="Advertisement ID" required=> </br/> <br/>		
-         Related :<br/>
-		<input type="text" name="related" placeholder="Foods/Not foods" pattern*[0-9]{10}* required>
-		 <br/> <br/>
-		Contact Number :<br/>
-		<input type="phone" name="mobile" placeholder="0xxxxxxxxx" pattern*[0-9]{10}* required><br/> <br/>
-		e-mail : <br/>
-		<input type="email" name="email" placeholder="abc@gmail.com" pattern*[a-z0-9._%+-]+0[a-z0-9.-]]+\.[a-z]{2,3}* required><br/><br/>
+        <input type="text" name="Oid" placeholder="Advertisement ID" required> <br/><br/>
+
+        Related :<br/>
+        <input type="text" name="related" placeholder="Foods/Not foods" required> <br/><br/>
+
+        Contact Number :<br/>
+        <input type="tel" name="mobile" placeholder="0xxxxxxxxx" pattern="[0-9]{10}" required><br/><br/>
+
+        E-mail : <br/>
+        <input type="email" name="email" placeholder="abc@gmail.com" required><br/><br/>
+
         Details : <br/>
-		<textarea name="address" rows="8" cols="58" required></textarea> <br/> <br/>
+        <textarea name="address" rows="8" cols="58" required></textarea> <br/><br/>
+
         Date : <br/>
-		<input type="date" name="day" required> <br/> <br/>
-		
-		Insert Image :<br>
-		<input type="file" name="img" required> <br/> <br/>
-		
-		<input type="submit" value="save" name="submit">
-		<br/><br/>
-	 </form>
-	 <br/><br/>
-	 
+        <input type="date" name="day" required> <br/><br/>
+
+        Insert Image :<br>
+        <input type="file" name="img" accept="image/*" required> <br/><br/>
+
+        <input type="submit" value="Save" name="submit">
+        <br/><br/>
+    </form>
+    <br/><br/>
+
     <footer id="footer">
-
         <div id="fbanner">
-         <h2>#FOODOVEN</h2>
-     </div>
-     <div id="social">
-         <h5>Follow us on :</h5>
-     </div>
-     <div id="icon">
-         
-         <div id="fb"><a href="https://www.facebook.com/" target="_blank"><img src="../../Images/facebook.png" class="img1"></a></div>
-         <div id="tweet"><a href="https://twitter.com/" target="_blank"><img src="../../Images/twitter.png" class="img2"></a></div>
-         <div id="insta"><a href="https://www.instagram.com/" target="_blank"><img src="../../Images/instragram.png" class="img3"></a></div>
-        
-     </div>
-
-     <div id="links">
-         <h5 id="linkh5"><u>Quick Links</u></h5>
-         <ul>
-             <li><a href="../../html/aboutus.html">About Us</a></li>
-             <li><a href="#">Contact Us</a></li>
-             <li><a href="#">Help</a></li>
-         </ul>
-     </div>
-     <div id="copy">
-         <p>Copyright &copy; 2022 FoodOven.<br>All Rights Reserved.</p>
-     </div>
-
+            <h2>#FOODOVEN</h2>
+        </div>
+        <div id="social">
+            <h5>Follow us on :</h5>
+        </div>
+        <div id="icon">
+            <div id="fb"><a href="https://www.facebook.com/" target="_blank"><img src="../../Images/facebook.png" class="img1"></a></div>
+            <div id="tweet"><a href="https://twitter.com/" target="_blank"><img src="../../Images/twitter.png" class="img2"></a></div>
+            <div id="insta"><a href="https://www.instagram.com/" target="_blank"><img src="../../Images/instragram.png" class="img3"></a></div>
+        </div>
+        <div id="links">
+            <h5 id="linkh5"><u>Quick Links</u></h5>
+            <ul>
+                <li><a href="../../html/aboutus.html">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Help</a></li>
+            </ul>
+        </div>
+        <div id="copy">
+            <p>Copyright &copy; 2022 FoodOven.<br>All Rights Reserved.</p>
+        </div>
     </footer>
 
-
 </body>
-
-</htm
+</html>
 
 <?php
-
 require "config.php";
 
-if(isset($_POST["submit"])){
+if (isset($_POST["submit"])) {
 
-$id=$_POST["Oid"];
-$Rel=$_POST["related"];
-$Phone=$_POST["mobile"];
-$Mail=$_POST["email"];
-$Data=$_POST["address"];
-$Date=$_POST["day"]; 
+    // Retrieve form data
+    $id = $_POST["Oid"];
+    $Rel = $_POST["related"];
+    $Phone = $_POST["mobile"];
+    $Mail = $_POST["email"];
+    $Data = $_POST["address"];
+    $Date = $_POST["day"];
 
-
-
-$fName = $_FILES['img']['name'];
- $fTName = $_FILES['img']['tmp_name'];
- $fSize = $_FILES['img']['size'];
- $fError = $_FILES['img']['size'];
- $fType = $_FILES['img']['type'];
- 
- print_r($fName);
-
- $target_dir = "../Images/";
-
- $target_file  =$target_dir. basename($_FILES["img"]["name"]);
-
- if(isset($_FILES["img"])) {
-
-        if (move_uploaded_file($_FILES["img"]["tmp_name"],$target_file)){
-			
-			
-			$sql= "INSERT INTO addedit (Adid,rel,number,mail,deta,dates,link) VALUES ('$id','$Rel','$Phone','$Mail','$Data','$Date','$target_file')";
-
-  if($con->query($sql)){
-	  echo "success";
-  }  
-  else {
-	  echo "Error : ".$con->error;
-  }		
-
-		}
- }
   
+    $fName = $_FILES['img']['name'];
+    $fTName = $_FILES['img']['tmp_name'];
+    $fSize = $_FILES['img']['size'];
+    $fError = $_FILES['img']['error'];
+    $fType = $_FILES['img']['type'];
+
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    $maxFileSize = 2 * 1024 * 1024;  // 2 MB max file size
+
+    
+    if (in_array($fType, $allowedTypes) && $fSize <= $maxFileSize) {
+        $target_dir = "../Images/";
+        $target_file = $target_dir . basename($fName);
+
+      
+        if (move_uploaded_file($fTName, $target_file)) {
+
+        
+            $stmt = $con->prepare("INSERT INTO addedit (Adid, rel, number, mail, deta, dates, link) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("issssss", $id, $Rel, $Phone, $Mail, $Data, $Date, $target_file);
+
+    
+            if ($stmt->execute()) {
+                echo "Success! Advertisement added.";
+            } else {
+                echo "Error: " . $stmt->error;
+            }
+
+           
+            $stmt->close();
+        } else {
+            echo "Error uploading the image.";
+        }
+    } else {
+        echo "Invalid file type or size exceeded.";
+    }
 }
+?>
 
-else{
-
-echo "Error : ".$con->error;
-
-}	
-
-
-
- ?>

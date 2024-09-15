@@ -6,7 +6,6 @@ if (!isset($_SESSION['loggedin'])) {
     exit;
 }
 
-// Database connection
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
 $DATABASE_PASS = '';
@@ -20,33 +19,37 @@ if ($con->connect_error) {
 
 $profile = $_SESSION['name'];
 
-// Check if form was submitted
 if (isset($_POST['update'])) {
 
-    // Sanitize inputs
+    // Sanitize and validate inputs
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $fname = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
     $lname = filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
     $address = filter_var($_POST['address'], FILTER_SANITIZE_STRING);
     $tel = filter_var($_POST['tel'], FILTER_SANITIZE_STRING);
-    $password = $_POST['password']; 
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "Invalid email format.";
+        exit;
+    }
+
+    $password = $_POST['password'];
+    $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_BCRYPT) : null;
 
     // Handle file upload securely
     $target_dir = "../../images/UserProfileIMAGES/uploads/";
-    $filename = basename($_FILES["file"]["name"]);
-    $filename = preg_replace("/[^a-zA-Z0-9\._-]/", "", $filename); // Sanitize filename
-    $target_file = $target_dir . uniqid() . "_" . $filename;
-
-    // Validate file type
-    $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    $allowedTypes = array('jpg', 'jpeg', 'png', 'gif');
-
-    // Handle file upload if a file was provided
+    $target_file = null;
+    
     if (!empty($_FILES["file"]["name"])) {
+        $filename = basename($_FILES["file"]["name"]);
+        $filename = preg_replace("/[^a-zA-Z0-9\._-]/", "", $filename); // Sanitize filename
+        $target_file = $target_dir . uniqid() . "_" . $filename;
+        
+        $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+        
         if (in_array($fileType, $allowedTypes)) {
-            if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-                echo "The file " . basename($_FILES["file"]["name"]) . " has been uploaded.";
-            } else {
+            if (!move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
                 echo "Error uploading the file.";
                 exit;
             }
@@ -54,54 +57,47 @@ if (isset($_POST['update'])) {
             echo "Invalid file type. Only JPG, JPEG, PNG, and GIF files are allowed.";
             exit;
         }
-    } else {
-        // No new file uploaded, so don't update the profile picture
-        $target_file = null;
     }
 
-    // Secure password hashing (if password is being updated)
-    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-    // Prepare update query
     $query = "UPDATE user SET 
                 Email = ?, 
                 Fname = ?, 
                 Lname = ?, 
                 Address = ?, 
-                Tel = ?, 
-                Password = ?";
+                Tel = ?";
 
-    // If a new profile picture was uploaded, include it in the update
+    if ($hashedPassword) {
+        $query .= ", Password = ?";
+    }
+    
     if ($target_file) {
         $query .= ", Profile = ?";
     }
-
+    
     $query .= " WHERE Email = ?";
 
-    // Prepare the SQL statement
     $stmt = $con->prepare($query);
 
-    if ($target_file) {
-    
+    if ($hashedPassword && $target_file) {
         $stmt->bind_param("ssssssss", $email, $fname, $lname, $address, $tel, $hashedPassword, $target_file, $profile);
-    } else {
-    
+    } elseif ($hashedPassword) {
         $stmt->bind_param("sssssss", $email, $fname, $lname, $address, $tel, $hashedPassword, $profile);
+    } elseif ($target_file) {
+        $stmt->bind_param("ssssss", $email, $fname, $lname, $address, $tel, $target_file, $profile);
+    } else {
+        $stmt->bind_param("ssssss", $email, $fname, $lname, $address, $tel, $profile);
     }
 
-    // Execute the query
     if ($stmt->execute()) {
-        // Success
+      
         header('Location: profile.php?message=updated');
         exit;
     } else {
-        echo "Error updating profile.";
+        echo "Error updating profile: " . $stmt->error;
     }
 
-    // Close the statement and connection
     $stmt->close();
 }
 
 $con->close();
-
 ?>
