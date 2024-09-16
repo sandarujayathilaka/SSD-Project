@@ -1,6 +1,12 @@
 <?php
+session_start(); // Start session to store CSRF token
 
-// Retrieve and sanitize user inputs
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (empty($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die('Invalid CSRF token');
+    }
+
+    // Retrieve and sanitize user inputs
 $fName = filter_var($_POST['Fname'], FILTER_SANITIZE_STRING);
 $lName = filter_var($_POST['Lname'], FILTER_SANITIZE_STRING);
 
@@ -72,4 +78,8 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $conn->close();
+    
+    unset($_SESSION['csrf_token']);
+}
+
 ?>

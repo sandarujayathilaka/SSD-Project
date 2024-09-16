@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // 32 bytes of randomness
+}
+
 $message = isset($_GET['message']) ? htmlspecialchars($_GET['message'], ENT_QUOTES, 'UTF-8') : '';
 ?>
 
@@ -106,6 +110,7 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message'], ENT_QUOT
       <label id="label">Mobile</label>
       <input type="text" name="myMobile" required size="25px">
     </div>
+ <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
     <br><br><br>
     <input type="reset" style="margin-left: 25%" name="reset" value="Reset">
