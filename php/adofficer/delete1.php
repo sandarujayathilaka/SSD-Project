@@ -1,24 +1,22 @@
 <?php
 require "config.php";
 
-$del =$_GET['id'];
+$del = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-if(isset($del)){
+if ($del > 0) {
 
-    $sql="DELETE FROM 'addedit'";
- 
+    $stmt = $con->prepare("DELETE FROM addedit WHERE Adid = ?");
+    $stmt->bind_param("i", $del); 
 
-    if($con->query($sql)){
-        echo 'Deleted Sucsessful';
+    if ($stmt->execute()) {
+        echo 'Deleted Successfully';
+    } else {
+        echo "Error: " . $stmt->error;
     }
 
-    else{
-        echo "Error :".$con->error;
-    }
-
-    header("Location:main.php");
+    header("Location: main.php");
     exit();
-
+} else {
+    echo "Invalid ID!";
 }
-
 ?>

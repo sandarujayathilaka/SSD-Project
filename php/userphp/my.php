@@ -69,7 +69,7 @@
 		 echo("<td>".$row['category']."</td>");
 		 echo("<td>".$row['user_name']."</td>");
 		 echo("<td>".$row['Title']."</td>");
-		  echo("<td>".$row['Time']."</td>");
+		 echo("<td>".$row['Time']."</td>");
 		 echo("<td>".$row['Ingredients']."</td>");
 		 echo("<td>".$row['Description']."</td>");
 		 echo("<td>"."<a id='deletelink' href=./recipedelete.php?id=".$row['Recipe_ID'].">"."Delete or"."</a>"."<a id='editlink' href=./editrecipe.php?id=".$row['Recipe_ID'].">"." update"."</a>"."</td>");
@@ -109,9 +109,8 @@
      </div>
 
     </footer-->
-
- 
- 
  
 </body>
+
 </html>
+

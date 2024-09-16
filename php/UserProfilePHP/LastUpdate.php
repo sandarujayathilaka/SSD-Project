@@ -4,7 +4,7 @@ session_start();
 // Sanitize the session data before outputting
 $Ymail = htmlspecialchars($_SESSION["mail"], ENT_QUOTES, 'UTF-8');
 
-echo $Ymail;
+echo "Email: " . htmlspecialchars($Ymail); 
 
 // Secure database connection
 $con = new mysqli("localhost", "root", "", "iwt");

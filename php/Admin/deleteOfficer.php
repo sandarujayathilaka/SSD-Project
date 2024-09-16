@@ -1,22 +1,33 @@
 <?php
 require "config.php";
 
-$ID =$_GET['id'];
+$ID = $_GET['id'] ?? null;
 
-if(isset($ID)){
+if ($ID) {
 
-    $sql="DELETE FROM `officeracc` WHERE $ID=`ID`";
-   
-
-    if($con->query($sql)){
-        echo 'Deleted Sucsessful';
+    $stmt = $con->prepare("DELETE FROM officeracc WHERE ID = ?");
+    
+    if ($stmt) {
+        
+        $stmt->bind_param("i", $ID);
+        
+        if ($stmt->execute()) {
+            
+            header("Location: ./admOfficer.php");
+            exit();
+        } else {
+            
+            echo "Error: " . $stmt->error;
+        }
+        
+        $stmt->close();
+    } else {
+        
+        echo "Error preparing statement: " . $con->error;
     }
-
-    else{
-        echo "Error :".$con->error;
-    }
-
-    header("Location:./admOfficer.php");
-    exit();
-
+} else {
+    echo "No ID provided.";
 }
+
+$con->close();
+?>

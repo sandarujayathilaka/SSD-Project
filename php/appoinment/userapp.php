@@ -120,8 +120,10 @@ if (isset($_POST['Delete'])) {
     <title>Recipe User</title>
     <link rel="stylesheet" href="../../css/appoinment/userapp.css" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <title>Recipe User</title>
+    <link rel="stylesheet" href="../../css/appoinment/userapp.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
 </head>
-
 <header>
     <nav>
         <ul>
@@ -146,12 +148,24 @@ if (isset($_POST['Delete'])) {
             <label>Appointment ID</label>
             <input type="text" name="addID">
         </div>
+        <div class="input-groupA">
+            <label>Appointment ID</label>
+            <input type="text" name="addID">
+        </div>
 
         <div class="input-groupA">
             <label>Description</label>
             <input type="text" name="adddesc">
         </div>
+        <div class="input-groupA">
+            <label>Description</label>
+            <input type="text" name="adddesc">
+        </div>
 
+        <div class="input-groupA">
+            <label>Address</label>
+            <input type="text" name="addAddress">
+        </div>
         <div class="input-groupA">
             <label>Address</label>
             <input type="text" name="addAddress">
@@ -171,6 +185,10 @@ if (isset($_POST['Delete'])) {
             <label>Date</label>
             <input type="date" name="adddate">
         </div>
+        <div class="input-groupA">
+            <label>Date</label>
+            <input type="date" name="adddate">
+        </div>
 
         <div class="input-groupA">
             <label>Time</label>
@@ -186,7 +204,16 @@ if (isset($_POST['Delete'])) {
     </form>
 
     <br><br><br>
+        <div class="input-groupA">
+            <button type="submit" name="Add" class="btnA">Book</button>
+        </div>
+    </form>
 
+    <br><br><br>
+
+    <div class="headerAD">
+        <h2>Cancel Booking</h2>
+    </div>
     <div class="headerAD">
         <h2>Cancel Booking</h2>
     </div>
@@ -205,5 +232,10 @@ if (isset($_POST['Delete'])) {
             <button type="submit" name="Delete" class="btnA">Delete</button>
         </div>
     </form>
+        <div class="input-groupA">
+            <button type="submit" name="Delete" class="btnA">Delete</button>
+        </div>
+    </form>
 </body>
 </html>
+

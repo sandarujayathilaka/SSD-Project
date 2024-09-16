@@ -1,23 +1,35 @@
 <?php
 require "config.php";
 
-$ID =$_GET['id'];
 
-if(isset($ID)){
+$ID = $_GET['id'] ?? null;
 
-    $sql2="DELETE FROM `contacts` WHERE $ID=`ID`";
-
-    if($con->query($sql2)){
-        echo 'Deleted Sucsessful';
+if ($ID) {
+    
+    $stmt = $con->prepare("DELETE FROM contacts WHERE ID = ?");
+    
+    if ($stmt) {
+       
+        $stmt->bind_param("i", $ID);
+        
+        if ($stmt->execute()) {
+            
+            header("Location: ./admcontact.php");
+            exit();
+        } else {
+          
+            echo "Error: " . $stmt->error;
+        }
+        
+        $stmt->close();
+    } else {
+      
+        echo "Error preparing statement: " . $con->error;
     }
-
-    else{
-        echo "Error :".$con->error;
-    }
-
-    header("Location:./admcontact.php");
-    exit();
-
+} else {
+    echo "No ID provided.";
 }
 
 
+$con->close();
+?>

@@ -1,19 +1,16 @@
 <?php
 
-
-
 if(isset($_GET['message'])){
 
 	echo'<script type="text/javascript">alert("Data Succesfully Updated")</script>';
-
 }
+
 session_start();
 
 if (!isset($_SESSION['loggedin'])) {
 		exit;
-
-
 }
+
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
 $DATABASE_PASS = '';
@@ -25,9 +22,7 @@ if (mysqli_connect_errno()) {
 
 $profile=$_SESSION['name'];
 		
-
 $stmt = $con->prepare("SELECT * FROM user WHERE Email= '$profile'");
-
 
 $stmt->execute();
 $stmt->bind_result($id, $fname,$lname,$fullNameX,$ad,$mobile,$emailxx,$pw,$image,$lastColumnX);
@@ -35,11 +30,7 @@ $stmt->fetch();
 $stmt->close();
 $profile=$_SESSION['name'];
 
-
-
 ?>
-
-
 
 
 <!DOCTYPE html>
@@ -159,14 +150,6 @@ h4{
 
 </nav>
 
-<!-- 
-		<div class="content" >
-			
-
-			<p style="margin-top: 12px; margin-left: 12px;"><b></b>Your account details are below:</p>
-			<div> -->
-
-
 <form method="POST" action="UserUpdate.php">
 			
 <div>
@@ -211,9 +194,6 @@ h4{
 						<td>Account Password:</td>
 						<td><?=$pw?></td>
 					</tr>
-					 
-					
-					
 					
 				</table>
 				<div style="text-align:center; margin-bottom: 10%;">

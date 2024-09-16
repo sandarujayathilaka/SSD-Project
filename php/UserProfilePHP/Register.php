@@ -23,7 +23,7 @@ if ($check !== false) {
     if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
         echo "The file " . htmlspecialchars(basename($_FILES["file"]["name"]), ENT_QUOTES, 'UTF-8') . " has been uploaded.";
     } else {
-        echo "Error while uploading your file.";
+        die("Error while uploading your file.");
     }
 } else {
     echo "File is not an image.";
@@ -32,7 +32,6 @@ if ($check !== false) {
 // Database connection
 $conn = new mysqli('localhost', 'root', '', 'iwt');
 if ($conn->connect_error) {
-    echo "$conn->connect_error";
     die("Connection Failed: " . $conn->connect_error);
 } else {
     $data = $_POST['data'];
@@ -49,7 +48,6 @@ if ($conn->connect_error) {
         header("Location: ../../html/home/home.html");
     }
 
-    $stmt->close();
-    $conn->close();
-}
+$stmt->close();
+$conn->close();
 ?>
