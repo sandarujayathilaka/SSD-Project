@@ -1,15 +1,17 @@
 <?php
 
+session_start();
+if (!isset($_SESSION['loggedin'])) {
+	header('Location: ../../html/UserProfileHTML/Login.html');
+	exit;
+}
+
+
 if(isset($_GET['message'])){
 
 	echo'<script type="text/javascript">alert("Data Succesfully Updated")</script>';
 }
 
-session_start();
-
-if (!isset($_SESSION['loggedin'])) {
-		exit;
-}
 
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';

@@ -55,7 +55,6 @@ if (isset($_GET['msg'])) {
 include "config.php";
 
 try {
-    // Secure query using prepared statements
     $sql = "SELECT ID, Link, Admin_Name, NIC, UserName, Pword FROM adminacc";
     $stmt = $con->prepare($sql);
     $stmt->execute();

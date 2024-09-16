@@ -1,21 +1,17 @@
 <?php 
 session_start();
-require 'config.php';  // Linking the configuration file
-
-// CSRF Protection 
+require 'config.php';  
+ 
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-// Error array to store validation errors
 $errors = [];
 
-// Function to validate phone numbers
 function validate_phone($phone) {
-    return preg_match('/^[0-9]{10}$/', $phone); // Check if phone number contains exactly 10 digits
+    return preg_match('/^[0-9]{10}$/', $phone); 
 }
 
-// Booking appointment form submission
 if (isset($_POST['Add'])) {
     
     // Validate CSRF token
@@ -32,34 +28,28 @@ if (isset($_POST['Add'])) {
     $adddate = $_POST['adddate'];
     $addtime = $_POST['addtime'];
 
-    // Validate required fields are not empty
     if (empty($addID) || empty($adddesc) || empty($addAddress) || empty($addContactNumber) || empty($addEmail) || empty($adddate) || empty($addtime)) {
         $errors[] = "All fields are required.";
     }
 
-    // Validate email format
     if (!filter_var($addEmail, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Invalid email format.";
     }
 
-    // Validate phone number
     if (!validate_phone($addContactNumber)) {
         $errors[] = "Invalid contact number. It must be a 10-digit number.";
     }
 
-    // Validate date format
     if (!DateTime::createFromFormat('Y-m-d', $adddate)) {
         $errors[] = "Invalid date format.";
     }
 
-    // Validate time format
     if (!DateTime::createFromFormat('H:i', $addtime)) {
         $errors[] = "Invalid time format.";
     }
 
-    // If no errors, process the form and save appointment
     if (count($errors) === 0) {
-        // Prepared statement to prevent SQL injection
+    
         $stmt = $con->prepare("INSERT INTO appointments (id, description, address, contact_number, email, date, time) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssss", $addID, $adddesc, $addAddress, $addContactNumber, $addEmail, $adddate, $addtime);
 
@@ -77,24 +67,24 @@ if (isset($_POST['Add'])) {
     }
 }
 
-// Cancel appointment form submission
+
 if (isset($_POST['Delete'])) {
 
-    // Validate CSRF token
+   
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         die("Invalid CSRF token.");
     }
 
-    // Sanitize and validate input data
+
     $deleteID = filter_var(trim($_POST['deleteID']), FILTER_SANITIZE_STRING);
 
     if (empty($deleteID)) {
         $errors[] = "Appointment ID is required for cancellation.";
     }
 
-    // If no errors, process the form and delete appointment
+  
     if (count($errors) === 0) {
-        // Prepared statement to prevent SQL injection
+      
         $stmt = $con->prepare("DELETE FROM appointments WHERE id = ?");
         $stmt->bind_param("s", $deleteID);
 
@@ -140,7 +130,7 @@ if (isset($_POST['Delete'])) {
         <h2>Make Appointment</h2>
     </div>
 
-    <!-- User appointment form -->
+    <!-- Appointment form -->
     <form method="post" action="userapp.php">
         <?php include ('errors.php'); ?> 
 
@@ -195,7 +185,6 @@ if (isset($_POST['Delete'])) {
             <input type="time" name="addtime">
         </div>
 
-        <!-- CSRF token for protection -->
         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
         <div class="input-groupA">
@@ -218,14 +207,12 @@ if (isset($_POST['Delete'])) {
         <h2>Cancel Booking</h2>
     </div>
 
-    <!-- Cancel appointment form -->
     <form method="post" action="userapp.php" class="delete">
         <div class="input-groupA">
             <label>Appointment ID</label>
             <input type="text" name="deleteID">
         </div>
 
-        <!-- CSRF token for protection -->
         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
         <div class="input-groupA">
