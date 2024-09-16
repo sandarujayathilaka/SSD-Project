@@ -1,46 +1,34 @@
 <?php
 session_start();
 
-// Retrieve the email from the session
-$Ymail = isset($_SESSION["mail"]) ? $_SESSION["mail"] : null;
-
-if (!$Ymail) {
-    // Redirect or throw an error if the email session is not set
-    die("Session expired or invalid.");
-}
+// Sanitize the session data before outputting
+$Ymail = htmlspecialchars($_SESSION["mail"], ENT_QUOTES, 'UTF-8');
 
 echo "Email: " . htmlspecialchars($Ymail); 
 
-
+// Secure database connection
 $con = new mysqli("localhost", "root", "", "iwt");
-
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
 } else {
-    echo "Database connection successful.";
+    echo "done";
 }
+
+// Sanitize the password input to prevent XSS
+$myPass = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
+
+// Hash the password to prevent plaintext storage
+$hashedPass = password_hash($myPass, PASSWORD_BCRYPT);
 
 if (isset($_POST['summon'])) {
-    $myPass = $_POST['password'];
+    // Use prepared statements to prevent SQL injection
+    $query = $con->prepare("UPDATE user SET Password = ? WHERE Email = ?");
+    $query->bind_param("ss", $hashedPass, $Ymail);
 
-    if (!empty($myPass)) {
-       
-        $hashedPass = password_hash($myPass, PASSWORD_DEFAULT);
-
-        $stmt = $con->prepare("UPDATE user SET Password = ? WHERE Email = ?");
-        $stmt->bind_param("ss", $hashedPass, $Ymail);
-
-        if ($stmt->execute()) {
-            header('Location: ../../html/UserProfileHTML/Login.html?message=updated');
-        } else {
-            echo '<script type="text/javascript">alert("Data Not Updated: ' . $stmt->error . '")</script>';
-        }
-
-        $stmt->close();
+    if ($query->execute()) {
+        header('Location:../../html/UserProfileHTML/Login.html?message=updated');
     } else {
-        echo '<script type="text/javascript">alert("Password cannot be empty!")</script>';
+        echo '<script type="text/javascript">alert("Data Not Updated")</script>';
     }
 }
-
-$con->close();
 ?>
