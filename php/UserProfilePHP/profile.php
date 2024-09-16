@@ -1,17 +1,15 @@
 <?php
 
-session_start();
-if (!isset($_SESSION['loggedin'])) {
-	header('Location: ../../html/UserProfileHTML/Login.html');
-	exit;
-}
-
-
 if(isset($_GET['message'])){
 
 	echo'<script type="text/javascript">alert("Data Succesfully Updated")</script>';
 }
 
+session_start();
+
+if (!isset($_SESSION['loggedin'])) {
+		exit;
+}
 
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
@@ -40,13 +38,8 @@ $profile=$_SESSION['name'];
 	<head>
 		<meta charset="utf-8">
 		<title>Profile Page</title>
-		
-		<!-- <link rel="stylesheet" href="../Css/index.css"> -->
     	<link rel="stylesheet" href="../../css/UserProfileCSS/header.css">
-
 		<style>
-
-			
 
 			th,td{
 				color: rgb(255, 255, 255);
@@ -85,7 +78,7 @@ $profile=$_SESSION['name'];
 			}
 
 
-			form {
+form {
   border: 3px solid #f1f1f1;
   display: block;
   margin-left: auto;
