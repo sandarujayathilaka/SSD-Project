@@ -1,50 +1,34 @@
 <?php
-
-
 session_start();
-$_SESSION["mail"] ;
-$_SESSION["tp"] ;
 
-$Ymail= $_SESSION["mail"] ;
+// Sanitize the session data before outputting
+$Ymail = htmlspecialchars($_SESSION["mail"], ENT_QUOTES, 'UTF-8');
 
 echo $Ymail;
 
-
-$con=new mysqli("localhost","root","","iwt");
-if($con->connect_error){
-die("Connection failed: " . $con->connect_error);
-}
-else{
-   echo "done";
-}
-
-
-$myPass=$_POST['password'];
-
-echo($myPass);
-
-if(isset($_POST['summon'])){
-   
-    $query="UPDATE user SET Password ='$myPass' WHERE Email='$Ymail'";
-    //echo'<script type="text/javascript">alert("Data  Updated")</script>';
-    //header( 'Location:..//Html/Login.html?message=updated');
-
-    $query_run=mysqli_query($con,$query);
-
-    if($query_run)
-     {
-        
-        header( 'Location:../../html/UserProfileHTML/Login.html?message=updated');
-        // echo "Done";
-
-         //header( 'Location:profile.php?message=updated');
-     }
-
-     else{
-        echo'<script type="text/javascript">alert("Data Not Updated")</script>';
-     }
-    
+// Secure database connection
+$con = new mysqli("localhost", "root", "", "iwt");
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
+} else {
+    echo "done";
 }
 
+// Sanitize the password input to prevent XSS
+$myPass = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
 
+// Hash the password to prevent plaintext storage
+$hashedPass = password_hash($myPass, PASSWORD_BCRYPT);
+
+if (isset($_POST['summon'])) {
+    // Use prepared statements to prevent SQL injection
+    $query = $con->prepare("UPDATE user SET Password = ? WHERE Email = ?");
+    $query->bind_param("ss", $hashedPass, $Ymail);
+
+    if ($query->execute()) {
+        header('Location:../../html/UserProfileHTML/Login.html?message=updated');
+    } else {
+        echo '<script type="text/javascript">alert("Data Not Updated")</script>';
+    }
+}
 ?>
