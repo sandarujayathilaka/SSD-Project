@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    // Invalid CSRF token, handle the error
+    die('Invalid CSRF token');
+}
+
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
 $DATABASE_PASS = '';

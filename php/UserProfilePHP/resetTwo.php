@@ -1,10 +1,14 @@
 <?php
+session_start();
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die('Invalid CSRF token'); // Stop the process if the token is invalid
+}
 
 if (isset($_GET['message'])) {
     echo '<script type="text/javascript">alert("Data Successfully Updated")</script>';
 }
 
-session_start();
+
 $_SESSION["mail"] = $_POST['myMail'];
 $_SESSION["tp"] = $_POST['myMail'];
 

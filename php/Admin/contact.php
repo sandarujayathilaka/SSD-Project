@@ -52,6 +52,9 @@
             <label class="formele">Gender :</label><br><br>
             <label class="formele">Male: <input type="radio" id="male" name="gender" value="Male" required></label>
             <label class="formele">Female: <input type="radio" id="female" name="gender" value="Female"></label><br><br>
+ 
+			<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+
 
             <input type="submit" id="submit" name="submit" value="Submit">
         </div>
@@ -86,9 +89,18 @@
 </body>
 
 <?php
+session_start();
+
+// Generate CSRF token if not already set
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Generate a random 32-byte token
+}
 require "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die("Invalid CSRF token");
+    }
     $name = htmlspecialchars($_POST["fname"]);
     $email = htmlspecialchars($_POST["email"]);
     $phone = htmlspecialchars($_POST["tp"]);

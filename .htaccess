@@ -14,3 +14,6 @@ Options -Indexes
     Header set Access-Control-Allow-Headers "Content-Type, Authorization"
 
 </IfModule>
+
+
+AddType application/x-httpd-php .html

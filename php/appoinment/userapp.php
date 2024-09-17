@@ -8,64 +8,87 @@ if (empty($_SESSION['csrf_token'])) {
 
 $errors = [];
 
+// Function to validate phone numbers (contact number)
 function validate_phone($phone) {
-    return preg_match('/^[0-9]{10}$/', $phone); 
+    return preg_match('/^[0-9]{10}$/', $phone); // 10 digits validation
 }
 
+// Validate date format
+function validate_date($date) {
+    $d = DateTime::createFromFormat('Y-m-d', $date);
+    return $d && $d->format('Y-m-d') === $date;
+}
+
+// Validate time format (HH:MM format)
+function validate_time($time) {
+    return preg_match('/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/', $time);
+}
+
+// Validate Email
+function validate_email($email) {
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+
+// Booking appointment form submission
 if (isset($_POST['Add'])) {
-    
     // Validate CSRF token
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         die("Invalid CSRF token.");
     }
 
-    // Sanitize and validate input data
+    // Sanitize and validate inputs
     $addID = filter_var(trim($_POST['addID']), FILTER_SANITIZE_STRING);
     $adddesc = filter_var(trim($_POST['adddesc']), FILTER_SANITIZE_STRING);
     $addAddress = filter_var(trim($_POST['addAddress']), FILTER_SANITIZE_STRING);
     $addContactNumber = filter_var(trim($_POST['addContactNumber']), FILTER_SANITIZE_STRING);
     $addEmail = filter_var(trim($_POST['addEmail']), FILTER_SANITIZE_EMAIL);
-    $adddate = $_POST['adddate'];
-    $addtime = $_POST['addtime'];
+    $adddate = filter_var($_POST['adddate'], FILTER_SANITIZE_STRING);
+    $addtime = filter_var($_POST['addtime'], FILTER_SANITIZE_STRING);
 
+    // Check required fields
     if (empty($addID) || empty($adddesc) || empty($addAddress) || empty($addContactNumber) || empty($addEmail) || empty($adddate) || empty($addtime)) {
         $errors[] = "All fields are required.";
     }
 
-    if (!filter_var($addEmail, FILTER_VALIDATE_EMAIL)) {
+    // Validate email
+    if (!validate_email($addEmail)) {
         $errors[] = "Invalid email format.";
     }
 
+    // Validate phone number
     if (!validate_phone($addContactNumber)) {
         $errors[] = "Invalid contact number. It must be a 10-digit number.";
     }
 
-    if (!DateTime::createFromFormat('Y-m-d', $adddate)) {
+    // Validate date
+    if (!validate_date($adddate)) {
         $errors[] = "Invalid date format.";
     }
 
-    if (!DateTime::createFromFormat('H:i', $addtime)) {
+    // Validate time
+    if (!validate_time($addtime)) {
         $errors[] = "Invalid time format.";
     }
 
+    // If no errors, process the form
     if (count($errors) === 0) {
-    
         $stmt = $con->prepare("INSERT INTO appointments (id, description, address, contact_number, email, date, time) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssss", $addID, $adddesc, $addAddress, $addContactNumber, $addEmail, $adddate, $addtime);
 
         if ($stmt->execute()) {
-            echo '<script type="text/javascript">alert("Appointment booked successfully.");</script>';
+            echo '<script>alert("Appointment booked successfully.");</script>';
         } else {
-            echo '<script type="text/javascript">alert("Error booking appointment.");</script>';
+            echo '<script>alert("Error booking appointment.");</script>';
         }
 
         $stmt->close();
     } else {
         foreach ($errors as $error) {
-            echo '<script type="text/javascript">alert("Error: ' . $error . '");</script>';
+            echo '<script>alert("Error: ' . $error . '");</script>';
         }
     }
 }
+
 
 
 if (isset($_POST['Delete'])) {

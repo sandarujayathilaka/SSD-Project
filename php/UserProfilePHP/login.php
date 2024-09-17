@@ -2,6 +2,11 @@
 // Start the session
 session_start();
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Generate a random 32-byte CSRF token
+}
+
+
 // Google OAuth URLs and your credentials
 $client_id = '171830815870-ts1kr0h37548mk1rnjhcj3r5qjo1rt6p.apps.googleusercontent.com';  // Replace with your Google Client ID
 $redirect_uri = 'www.google.com';  // Replace with your Redirect URI
@@ -140,6 +145,8 @@ $google_login_url = "https://accounts.google.com/o/oauth2/auth?response_type=cod
     </div>
 
     <div class="container">
+	 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+
         <label for="uname"><b>Username</b></label>
         <input type="text" placeholder="Enter Username" name="username" required>
 
