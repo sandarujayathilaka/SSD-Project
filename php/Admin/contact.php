@@ -1,3 +1,19 @@
+<?php
+        session_start();
+
+        // require "../ErrorHandling/ErrorHandler.php";
+        require "config.php";
+
+        // // Trigger a test error to check if custom error handler works
+        // trigger_error("Test error logging", E_USER_NOTICE);
+    
+        // Generate CSRF token if not already set
+        if (!isset($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,13 +51,14 @@
     </div>
 
     <form id="contact" method="POST" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
         <div id="formdiv">
 
             <label class="formele">Your Name :</label><br><br>
             <input type="text" class="formele" id="fname" name="fname" required><br><br>
 
             <label class="formele">Your Email :</label><br><br>
-            <input type="email" class="formele" id="email" name="email" required><br><br>
+            <input type="mail" class="formele" id="email" name="email" required><br><br>
 
             <label class="formele">Phone :</label><br><br>
             <input type="tel" class="formele" id="tp" name="tp" required><br><br>
@@ -53,7 +70,6 @@
             <label class="formele">Male: <input type="radio" id="male" name="gender" value="Male" required></label>
             <label class="formele">Female: <input type="radio" id="female" name="gender" value="Female"></label><br><br>
  
-			<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
 
             <input type="submit" id="submit" name="submit" value="Submit">
@@ -89,41 +105,62 @@
 </body>
 
 <?php
-session_start();
 
-// Generate CSRF token if not already set
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Generate a random 32-byte token
-}
-require "config.php";
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-        die("Invalid CSRF token");
-    }
-    $name = htmlspecialchars($_POST["fname"]);
-    $email = htmlspecialchars($_POST["email"]);
-    $phone = htmlspecialchars($_POST["tp"]);
-    $subject = htmlspecialchars($_POST["sub"]);
-    $gender = isset($_POST["gender"]) ? htmlspecialchars($_POST["gender"]) : '';
+        if (isset($_POST["fname"]) && isset($_POST["email"]) && isset($_POST["tp"]) && isset($_POST["sub"])) {
 
-    // Basic validation
-    if (!empty($name) && !empty($email) && !empty($phone) && !empty($subject) && !empty($gender)) {
-        $stmt = $con->prepare("INSERT INTO contacts (Name, Email, Phone, Subject, Gender) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $name, $email, $phone, $subject, $gender);
+            try{
 
-        if ($stmt->execute()) {
-            echo '<div id="mesbox"><h3 id="message">Successfully Submitted</h3></div>';
+                // Validate the CSRF token
+                if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+                    die("Invalid CSRF token");
+                }
+    
+                // Sanitize and validate input
+                $name = htmlspecialchars($_POST["fname"]);
+                $email = htmlspecialchars($_POST["email"]);
+                $phone = htmlspecialchars($_POST["tp"]);
+                $subject = htmlspecialchars($_POST["sub"]);
+                $gender = isset($_POST["gender"]) ? htmlspecialchars($_POST["gender"]) : '';
+        
+                // Basic validation
+                if (empty($name) || empty($email) || empty($phone) || empty($subject) || empty($gender)) {
+                    throw new Exception("All fields are required!");
+                }
+    
+                // Database connection
+                $stmt = $con->prepare("INSERT INTO contacts (Name, Email, Phone, Subject, Gender) VALUES (?, ?, ?, ?, ?)");
+                $stmt->bind_param("sssss", $name, $email, $phone, $subject, $gender);
+    
+                // Execute and check if successful
+                if (!$stmt->execute()) {
+                    throw new Exception("Error: " . $stmt->error);
+                }
+    
+                // Success message (safe to display to users)
+                echo '<div id="mesbox"><h3 id="message">Successfully Submitted</h3></div>';
+                $stmt->close();
+    
+            } catch (Exception $e) {
+                // Log the detailed error for debugging
+                error_log($e->getMessage());
+            
+                // Display a generic error message to the user
+                echo '<div id="mesbox"><h3 id="message">An error occurred. Please try again later.</h3></div>';
+
+            }
+
         } else {
-            echo '<div id="mesbox"><h3 id="message">Error: ' . $stmt->error . '</h3></div>';
+            echo "Required fields are missing.";
         }
-        $stmt->close();
-    } else {
-        echo '<div id="mesbox"><h3 id="message">All fields are required!</h3></div>';
+
     }
-}
 
 $con->close();
+
 ?>
+
+
 
 </html>
