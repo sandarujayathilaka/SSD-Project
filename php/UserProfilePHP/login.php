@@ -8,8 +8,8 @@ if (empty($_SESSION['csrf_token'])) {
 
 
 // Google OAuth URLs and your credentials
-$client_id = '171830815870-ts1kr0h37548mk1rnjhcj3r5qjo1rt6p.apps.googleusercontent.com';  // Replace with your Google Client ID
-$redirect_uri = 'www.google.com';  // Replace with your Redirect URI
+$client_id = '155073343041-c71d0eemprar3l23btu5sulm9t6ujd4o.apps.googleusercontent.com';  // Replace with your Google Client ID
+$redirect_uri = 'http://localhost/SSD-Project/html/home/home.html';  // Replace with your Redirect URI
 
 // Google OAuth URL
 $google_login_url = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=$client_id&redirect_uri=$redirect_uri&scope=email%20profile&access_type=online";

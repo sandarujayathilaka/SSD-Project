@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+// Generate a new CSRF token if one doesn't exist or refresh it.
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +46,7 @@
 </center>
 <div id="F">
 <form action="../../php/userphp/connect.php" method="POST">
-
+<input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
 <?php
 

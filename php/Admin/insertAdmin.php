@@ -4,11 +4,16 @@ if (!isset($_SESSION['loggedin'])) {
     header('Location: ../../html/UserProfileHTML/Login.html');
     exit;
 }
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 require "config.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("CSRF token validation failed");
+    }
     $name = htmlspecialchars($_POST["name"]);
     $nic = htmlspecialchars($_POST["nic"]);
     $uname = htmlspecialchars($_POST["username"]);
@@ -102,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <label class="formele">Profile Picture:</label><br><br>
         <input type="file" id="img" name="file" required><br><br>
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
         <input type="submit" id="submit" name="submit" value="Submit">
     </div>

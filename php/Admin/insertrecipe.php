@@ -4,12 +4,16 @@ if (!isset($_SESSION['loggedin'])) {
     header('Location: ../../html/UserProfileHTML/Login.html');
     exit;
 }
-
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 require "config.php";
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-   
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("CSRF token validation failed");
+    }
     $title = htmlspecialchars($_POST["title"]);
     $selectedUser = htmlspecialchars($_POST["select1"]);
 
@@ -85,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <br><br>
         <label class="formele">Category Name:</label><br><br>
         <input type="text" class="formele" id="title" name="title" required><br><br>
-
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
         <input type="submit" id="submit" name="submit" value="Submit">
     </div>
 </form>

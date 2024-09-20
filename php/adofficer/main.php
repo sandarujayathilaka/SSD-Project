@@ -53,7 +53,7 @@
 
         Insert Image :<br>
         <input type="file" name="img" accept="image/*" required> <br/><br/>
-
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
         <input type="submit" value="Save" name="submit">
         <br/><br/>
     </form>
@@ -88,9 +88,25 @@
 </html>
 
 <?php
+session_start();
+if (!isset($_SESSION['loggedin'])) {
+    header('Location: ../../html/UserProfileHTML/Login.html');
+    exit;
+}
+
+// Generate CSRF token if it doesn't exist
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 require "config.php";
 
-if (isset($_POST["submit"])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    // Verify CSRF token
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("CSRF token validation failed");
+    }
 
     // Retrieve form data
     $id = $_POST["Oid"];
@@ -100,7 +116,6 @@ if (isset($_POST["submit"])) {
     $Data = $_POST["address"];
     $Date = $_POST["day"];
 
-  
     $fName = $_FILES['img']['name'];
     $fTName = $_FILES['img']['tmp_name'];
     $fSize = $_FILES['img']['size'];
@@ -110,26 +125,20 @@ if (isset($_POST["submit"])) {
     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     $maxFileSize = 2 * 1024 * 1024;  // 2 MB max file size
 
-    
     if (in_array($fType, $allowedTypes) && $fSize <= $maxFileSize) {
         $target_dir = "../Images/";
         $target_file = $target_dir . basename($fName);
 
-      
         if (move_uploaded_file($fTName, $target_file)) {
-
-        
             $stmt = $con->prepare("INSERT INTO addedit (Adid, rel, number, mail, deta, dates, link) VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("issssss", $id, $Rel, $Phone, $Mail, $Data, $Date, $target_file);
 
-    
             if ($stmt->execute()) {
                 echo "Success! Advertisement added.";
             } else {
                 echo "Error: " . $stmt->error;
             }
 
-           
             $stmt->close();
         } else {
             echo "Error uploading the image.";
