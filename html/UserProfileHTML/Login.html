@@ -1,4 +1,12 @@
+<?php
+session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
+
+
+?>
 
 
 
@@ -6,20 +14,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- <?php
-if(isset($_GET['message'])){
-  ?>
-	
 
-
-  <?php echo?>
-  
-  <script type="text/javascript">alert("Data Succesfully Updated");
-
-
-  </script>
-<?php
-}?> -->
 
 
 <title>FOODOVEN | Login</title>
@@ -201,7 +196,7 @@ span.psw {
 
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="password" required>
-        
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
     <button type="submit" id="submit">Login</button>
 
 
@@ -223,9 +218,6 @@ span.psw {
     <span class="psw"> <a href="../../php/UserProfilePHP/reset.php">Forgot password?</a></span>
   </div>
 </form>
-
-<?php
-
 
 
 

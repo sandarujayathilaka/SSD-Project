@@ -25,7 +25,9 @@ $stmt->execute();
 $stmt->bind_result($idX, $fname, $lname, $fullNameX, $ad, $mobile, $emailxx, $pw, $image, $lastColumnX);
 $stmt->fetch();
 $stmt->close();
-
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 ?>
 
 <!DOCTYPE html>
@@ -124,7 +126,7 @@ $stmt->close();
             <p>Email<br><input type="email" name="email" value="<?= htmlspecialchars($_SESSION['name']) ?>"></p>
 
             <p>Password<br><input type="password" name="password" value=""></p>
-
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
             <input type="submit" style="margin: 2% 50% 2% 47%; background-color: mediumspringgreen; color: black;" name="update" title="Update your Details" value="Update">
         </form>
     </div>

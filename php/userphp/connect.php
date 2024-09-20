@@ -1,7 +1,13 @@
 
 <?php
 
+session_start();
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die('Invalid CSRF token.'); 
+    }
   $category = $_POST['select1'];
   $username = $_POST['user_name'];
   $Title = $_POST['Title'];
@@ -33,7 +39,7 @@ $conn->close();
 
 
 }
-
+}
 
 ?>
 

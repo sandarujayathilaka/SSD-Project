@@ -4,6 +4,9 @@ if (!isset($_SESSION['loggedin'])) {
     header('Location: ../../html/UserProfileHTML/Login.html');
     exit;
 }
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,6 +49,7 @@ if (!isset($_SESSION['loggedin'])) {
             <img src="../../images/search.png" id="searchimg">
         </div>
         <input type="text" name="uname" id="bar" placeholder="Enter the full name" required>
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
         <button id="sub" type="submit" name="btnsub">Search</button>
     </form>
 </div>
@@ -62,6 +66,12 @@ echo "<th>Email</th>";
 echo "<th>Password</th>";
 echo "<th>Action</th>";
 echo "</tr>";
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Verify CSRF token
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("CSRF token validation failed");
+    }
 
 if (isset($_POST["btnsub"])) {
     $uname = $_POST["uname"];
@@ -93,6 +103,7 @@ if (isset($_POST["btnsub"])) {
 }
 
 $con->close();
+}
 ?>
 </body>
 </html>

@@ -7,6 +7,10 @@ if(isset($_GET['message'])){
 
 session_start();
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 if (!isset($_SESSION['loggedin'])) {
 		exit;
 }
@@ -146,7 +150,7 @@ h4{
 </nav>
 
 <form method="POST" action="UserUpdate.php">
-			
+<input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">	
 <div>
 	<h4 > &nbsp;<?=$_SESSION['name']?>&nbsp;Your account details are below</h5></marquee>
 	<div class="tag">

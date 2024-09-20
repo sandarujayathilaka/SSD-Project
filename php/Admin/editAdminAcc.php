@@ -4,6 +4,9 @@ if (!isset($_SESSION['loggedin'])) {
     header('Location: ../../html/UserProfileHTML/Login.html');
     exit;
 }
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 ?>
 
 <?php
@@ -84,6 +87,7 @@ $con->close();
         <img src="<?php echo $url ?>" alt="<?php echo $url ?>" style="width:100px;height:125px;"><br><br>
         <input type="hidden" name="exurl" value="<?php echo $url ?>"><br><br>
         Profile Picture : <input type="file" id="img" name="file" required><br><br>
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
         <input type="submit" id="submit" name="submit" value="Update">
     </div>
 </form>
@@ -92,6 +96,9 @@ $con->close();
 require "config.php";
 
 if (isset($_POST["submit"])) {
+    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die("Invalid CSRF token");
+    }
     $id = $_POST["id"];
     $name = $_POST["name"];
     $nic = $_POST["nic"];
