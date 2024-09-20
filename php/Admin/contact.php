@@ -1,3 +1,19 @@
+<?php
+        session_start();
+
+        // require "../ErrorHandling/ErrorHandler.php";
+        require "config.php";
+
+        // // Trigger a test error to check if custom error handler works
+        // trigger_error("Test error logging", E_USER_NOTICE);
+    
+        // Generate CSRF token if not already set
+        if (!isset($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +51,7 @@
     </div>
 
     <form id="contact" method="POST" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
         <div id="formdiv">
 
             <label class="formele">Your Name :</label><br><br>
@@ -90,16 +107,6 @@
 
 <?php
 
-    require 'ErrorHandler.php';
-    session_start();
-
-    // Generate CSRF token if not already set
-    if (!isset($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    }
-
-    require "config.php";
-
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         try{
@@ -147,5 +154,7 @@
 $con->close();
 
 ?>
+
+
 
 </html>

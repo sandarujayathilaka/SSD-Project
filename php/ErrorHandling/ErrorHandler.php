@@ -4,7 +4,7 @@
 // Custom error handler
 function customErrorHandler($errno, $errstr, $errfile, $errline) {
     // Log error details to logs/error.log
-    error_log("Error [$errno]: $errstr in $errfile on line $errline", 3, __DIR__ . "/logs/error.log");
+    error_log("Error [$errno]: $errstr in $errfile on line $errline", 3, __DIR__ . "/../../logs/error.log");
     
     // Display a generic message to the user
     echo "<p>Oops! Something went wrong. Please try again later.</p>";
@@ -14,7 +14,7 @@ function customErrorHandler($errno, $errstr, $errfile, $errline) {
 // Custom exception handler
 function customExceptionHandler($exception) {
     // Log exception details to logs/error.log
-    error_log("Exception: " . $exception->getMessage(), 3, __DIR__ . "/logs/error.log");
+    error_log("Exception: " . $exception->getMessage(), 3, __DIR__ . "/../../logs/error.log");
 
     // Display a generic message to the user
     echo "<p>An unexpected error occurred. Please contact support.</p>";
