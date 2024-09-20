@@ -1,2 +1,19 @@
-Options -Indexes 
+# Disable directory browsing
+Options -Indexes
+
+
+<IfModule mod_headers.c>
+    # Allow CORS for specific domains
+    SetEnvIf Origin "http(s)?://(www\.)?(localhost|127\.0\.0\.1)$" AccessControlAllowOrigin=$0
+    Header set Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
+    
+    # Allow methods used in application
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+
+    # Allow necessary headers    
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+
+</IfModule>
+
+
 AddType application/x-httpd-php .html
