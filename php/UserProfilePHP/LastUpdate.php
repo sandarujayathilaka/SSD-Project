@@ -1,5 +1,10 @@
 <?php
-session_start();
+session_start([
+    'cookie_lifetime' => 86400,  
+    'cookie_secure' => true,     
+    'cookie_httponly' => true,   
+    'cookie_samesite' => 'Strict' 
+]);
 
 // Sanitize the session data before outputting
 $Ymail = htmlspecialchars($_SESSION["mail"], ENT_QUOTES, 'UTF-8');

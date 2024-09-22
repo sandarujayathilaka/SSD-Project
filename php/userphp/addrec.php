@@ -1,5 +1,10 @@
 <?php
-session_start();
+session_start([
+    'cookie_lifetime' => 86400,  
+    'cookie_secure' => true,     
+    'cookie_httponly' => true,   
+    'cookie_samesite' => 'Strict' 
+]);
 
 // Generate a new CSRF token if one doesn't exist or refresh it.
 if (empty($_SESSION['csrf_token'])) {

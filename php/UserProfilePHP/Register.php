@@ -1,5 +1,10 @@
 <?php
-session_start(); // Start session to store CSRF token
+session_start([
+    'cookie_lifetime' => 86400,  
+    'cookie_secure' => true,     
+    'cookie_httponly' => true,   
+    'cookie_samesite' => 'Strict' 
+]);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {

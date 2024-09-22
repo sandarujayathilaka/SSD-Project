@@ -1,6 +1,11 @@
 <?php
-// Start the session
-session_start();
+
+session_start([
+    'cookie_lifetime' => 86400,    
+    'cookie_secure' => true,      
+    'cookie_httponly' => true,     
+    'cookie_samesite' => 'Strict', 
+]);
 
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Generate a random 32-byte CSRF token

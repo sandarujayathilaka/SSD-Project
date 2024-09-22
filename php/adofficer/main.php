@@ -88,7 +88,12 @@
 </html>
 
 <?php
-session_start();
+session_start([
+    'cookie_lifetime' => 86400,  
+    'cookie_secure' => true,     
+    'cookie_httponly' => true,   
+    'cookie_samesite' => 'Strict' 
+]);
 if (!isset($_SESSION['loggedin'])) {
     header('Location: ../../html/UserProfileHTML/Login.html');
     exit;

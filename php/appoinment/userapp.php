@@ -1,5 +1,10 @@
 <?php 
-session_start();
+session_start([
+    'cookie_lifetime' => 86400,  
+    'cookie_secure' => true,     
+    'cookie_httponly' => true,   
+    'cookie_samesite' => 'Strict' 
+]);
 require 'config.php';  
 
 $secret_key = 'your_secret_key'; // Store this securely in environment variables or config

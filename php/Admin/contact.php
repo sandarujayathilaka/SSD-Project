@@ -1,5 +1,10 @@
 <?php
-        session_start();
+        session_start([
+			'cookie_lifetime' => 86400,  
+			'cookie_secure' => true,     
+			'cookie_httponly' => true,   
+			'cookie_samesite' => 'Strict' 
+		]);
 
         // require "../ErrorHandling/ErrorHandler.php";
         require "config.php";
