@@ -11,13 +11,7 @@ $Ymail = htmlspecialchars($_SESSION["mail"], ENT_QUOTES, 'UTF-8');
 
 echo "Email: " . htmlspecialchars($Ymail); 
 
-// Secure database connection
-$con = new mysqli("localhost", "root", "", "iwt");
-if ($con->connect_error) {
-    die("Connection failed: " . $con->connect_error);
-} else {
-    echo "done";
-}
+require('config.php');
 
 // Sanitize the password input to prevent XSS
 $myPass = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');

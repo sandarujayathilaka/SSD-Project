@@ -1,6 +1,6 @@
 # Disable directory browsing
-Options -Indexes
 
+Options -Indexes
 
 <IfModule mod_headers.c>
     # Allow CORS for specific domains
@@ -10,10 +10,20 @@ Options -Indexes
     # Allow methods used in application
     Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
 
-    # Allow necessary headers    
+    # Allow necessary headers
     Header set Access-Control-Allow-Headers "Content-Type, Authorization"
 
-</IfModule>
+    # Content Security Policy Header
+    Header set Content-Security-Policy "default-src 'self'; \
+        script-src 'self' https://www.google-apis.com; \
+        style-src 'self' https://cdnjs.cloudflare.com https://use.fontawesome.com; \
+        img-src 'self' data: https://*.cloudflare.com https://img.freepik.com https://i.pinimg.com https://www.wallpapertip.com https://i.pinimg.com; \
+        connect-src 'self'; \
+        font-src 'self' https://fonts.googleapis.com; \
+        frame-ancestors 'none'; \
+        form-action 'self'; \
+        base-uri 'self';"
 
+</IfModule>
 
 AddType application/x-httpd-php .html

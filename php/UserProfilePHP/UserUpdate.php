@@ -11,16 +11,7 @@ if (!isset($_SESSION['loggedin'])) {
     exit;
 }
 
-$DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'root';
-$DATABASE_PASS = '';
-$DATABASE_NAME = 'iwt';
-
-$con = new mysqli($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-
-if ($con->connect_error) {
-    die("Connection Failed: " . $con->connect_error);
-}
+require('config.php');
 
 $profile = $_SESSION['name'];
 

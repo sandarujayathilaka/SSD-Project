@@ -26,7 +26,9 @@ $google_login_url = "https://accounts.google.com/o/oauth2/auth?response_type=cod
 <head>
     <title>FOODOVEN | Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
+    <link rel="stylesheet" href="../../css/UserProfileCSS/login2.css" />
+
+    <!-- <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
             background-image: url('https://img.freepik.com/free-photo/empty-wood-table-top-abstract-blurred-restaurant-cafe-background-can-be-used-display-montage-your-products_7191-916.jpg?w=740');
@@ -138,7 +140,7 @@ $google_login_url = "https://accounts.google.com/o/oauth2/auth?response_type=cod
                 width: 100%;
             }
         }
-    </style>
+    </style> -->
 </head>
 <body>
 
@@ -161,7 +163,7 @@ $google_login_url = "https://accounts.google.com/o/oauth2/auth?response_type=cod
         <button type="submit" id="submit">Login</button>
 
         <!-- Google Login Button -->
-        <div style="text-align: center; margin-top: 10px;">
+        <div class="google-login" >
             <a href="<?php echo htmlspecialchars($google_login_url); ?>">Login with Google</a>
         </div>
 
@@ -170,7 +172,7 @@ $google_login_url = "https://accounts.google.com/o/oauth2/auth?response_type=cod
         </div>
     </div>
 
-    <div class="container" style="background-color:#f1f1f1">
+    <div class="container cancel-container">
         <button type="reset" class="cancelbtn">Cancel</button>
         <span class="psw"> <a href="../../php/UserProfilePHP/reset.php">Forgot password?</a></span>
     </div>
