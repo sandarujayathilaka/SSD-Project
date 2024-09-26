@@ -110,6 +110,7 @@ if (isset($_POST["submit"])) {
     $uname = $_POST["username"];
     $pword = $_POST["password"];
     $exurl = $_POST["exurl"];
+    $hashedPassword = password_hash($pword, PASSWORD_BCRYPT);
 
     // Handle file upload
     $fileName = $_FILES['file']['name'];
@@ -139,7 +140,7 @@ if (isset($_POST["submit"])) {
 
                 // Prepared statement for UPDATE query
                 $stmt = $con->prepare("UPDATE `adminacc` SET `Admin_Name`=?, `NIC`=?, `UserName`=?, `Pword`=?, `Link`=? WHERE `ID` = ?");
-                $stmt->bind_param("sssssi", $name, $nic, $uname, $pword, $target_file, $id);
+                $stmt->bind_param("sssssi", $name, $nic, $uname, $hashedPassword, $target_file, $id);
 
                 if ($stmt->execute()) {
                     header("Location: ./adminAcc.php?msg=success");

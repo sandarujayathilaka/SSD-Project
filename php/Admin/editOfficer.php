@@ -109,10 +109,11 @@ if (isset($_POST["submit"])) {
     $nic = $_POST["nic"];
     $uname = $_POST["username"];
     $pword = $_POST["password"];
+    $hashedPassword = password_hash($pword, PASSWORD_BCRYPT);
 
    
     $stmt = $con->prepare("UPDATE `officeracc` SET `Officer_Name` = ?, `NIC` = ?, `UserName` = ?, `Pword` = ? WHERE `ID` = ?");
-    $stmt->bind_param("ssssi", $name, $nic, $uname, $pword, $id); 
+    $stmt->bind_param("ssssi", $name, $nic, $uname, $hashedPassword, $id); 
 
     
     if ($stmt->execute()) {
