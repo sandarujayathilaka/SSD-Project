@@ -13,6 +13,9 @@ Options -Indexes
     # Allow necessary headers
     Header set Access-Control-Allow-Headers "Content-Type, Authorization"
 
+    # Add anti-clickjacking header
+    Header always set X-Frame-Options "DENY"
+
     # Content Security Policy Header
     Header set Content-Security-Policy "default-src 'self'; \
         script-src 'self' https://www.google-apis.com 'nonce-random123'; \

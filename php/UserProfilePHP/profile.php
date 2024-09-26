@@ -116,8 +116,8 @@ $profile=$_SESSION['name'];
 					
 				</table>
 				<div class="edit-button-container">
-					<a href="UserUpdate.php"><input type="button"  title="Click here to Edit" class="Edit edit-button" value="Edit"></a>
-					</div>
+					<a href="UserUpdate.php"><input type="button" title="Click here to Edit" class="Edit edit-button" value="Edit"></a>
+				</div>
 				</center>
 </form>
 			</div>
