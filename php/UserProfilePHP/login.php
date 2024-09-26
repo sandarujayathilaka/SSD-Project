@@ -16,6 +16,15 @@ $redirect_uri = 'http://localhost/SSD-Project/php/UserProfilePHP/google_callback
 
 // Google OAuth URL for login
 $google_login_url = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=$client_id&redirect_uri=$redirect_uri&scope=email%20profile&access_type=online";
+
+
+// Facebook OAuth credentials
+$facebook_client_id = '1566984040892940';  // Replace with your Facebook App ID
+$facebook_redirect_uri = 'http://localhost/SSD-Project/php/UserProfilePHP/facebook_callback.php';  // Update with your Facebook callback URL
+
+// Facebook OAuth URL for login
+$facebook_login_url = "https://www.facebook.com/v12.0/dialog/oauth?client_id=$facebook_client_id&redirect_uri=$facebook_redirect_uri&scope=email,public_profile";
+
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +59,11 @@ $google_login_url = "https://accounts.google.com/o/oauth2/auth?response_type=cod
         <!-- Google Login Button -->
         <div class="google-login">
             <a href="<?php echo htmlspecialchars($google_login_url); ?>">Login with Google</a>
+        </div>
+
+        <!-- Facebook Login Button -->
+        <div class="google-login">
+            <a href="<?php echo htmlspecialchars($facebook_login_url); ?>">Login with Facebook</a>
         </div>
 
         <div id="acc">
