@@ -1,7 +1,7 @@
 <?php
         session_start([
 			'cookie_lifetime' => 86400,  
-			'cookie_secure' => true,     
+			'cookie_secure' => false,     
 			'cookie_httponly' => true,   
 			'cookie_samesite' => 'Strict' 
 		]);
@@ -122,7 +122,7 @@
                     die("Invalid CSRF token");
                 }
     
-                // Sanitize and validate input
+               
                 $name = htmlspecialchars($_POST["fname"]);
                 $email = htmlspecialchars($_POST["email"]);
                 $phone = htmlspecialchars($_POST["tp"]);

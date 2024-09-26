@@ -7,7 +7,7 @@ if(isset($_GET['message'])){
 
 session_start([
     'cookie_lifetime' => 86400,  
-    'cookie_secure' => true,     
+    'cookie_secure' => false,     
     'cookie_httponly' => true,   
     'cookie_samesite' => 'Strict' 
 ]);
@@ -61,7 +61,7 @@ $profile=$_SESSION['name'];
 	 <h1>#FOODOVEN</h1>
  </div>
  <div id="logbtn">
-	<a href="../../html/UserProfileHTML/Login.html"><button class="logL">Logout</button></a>
+	<a href="../UserProfilePHP/login.php"><button class="logL">Logout</button></a>
 	</div>
 	<div id="regbtn">
 	   <a href="#"><H class="logN"><?=$_SESSION['name']?></H></a>
@@ -88,36 +88,31 @@ $profile=$_SESSION['name'];
 				
 					<tr>
 						<td>Email:</td>
-						<td><?=$_SESSION['name']?></td>
+						<td><?php echo htmlspecialchars($_SESSION['name'], ENT_QUOTES, 'UTF-8'); ?></td>
 					</tr>
 					<tr>
 						<td>First Name:</td>
-						<td><?=$fname?></td>
+						<td><?php echo htmlspecialchars($fname, ENT_QUOTES, 'UTF-8'); ?></td>
 					</tr>
 				
 					<tr>
 						<td>Last Name:</td>
-						<td><?=$lname?></td>
+					<td><?php echo htmlspecialchars($lname, ENT_QUOTES, 'UTF-8'); ?></td>
 					</tr>
 					
 					<tr>
 						<td>Address:</td>
-						<td><?=$ad?></td>
+						<td><?php echo htmlspecialchars($ad, ENT_QUOTES, 'UTF-8'); ?></td>
 					</tr>
 					<tr>
 						<td>Mobile :</td>
-						<td><?=$mobile?></td>
-					</tr>
-					
-					<tr>
-						<td>Account Password:</td>
-						<td><?=$pw?></td>
+						<td><?php echo htmlspecialchars($mobile, ENT_QUOTES, 'UTF-8'); ?></td>
 					</tr>
 					
 				</table>
 				<div class="edit-button-container">
-					<a href="UserUpdate.php"><input type="button"  title="Click here to Edit" class="Edit edit-button" value="Edit"></a>
-					</div>
+					<a href="UserUpdate.php"><input type="button" title="Click here to Edit" class="Edit edit-button" value="Edit"></a>
+				</div>
 				</center>
 </form>
 			</div>

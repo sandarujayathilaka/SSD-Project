@@ -1,7 +1,7 @@
 <?php
 session_start([
     'cookie_lifetime' => 86400,  
-    'cookie_secure' => true,     
+    'cookie_secure' => false,     
     'cookie_httponly' => true,   
     'cookie_samesite' => 'Strict' 
 ]);
@@ -49,6 +49,17 @@ function verify_user($con, $table, $username_field, $password_field, $redirect_u
 
 // Check if the username and password fields are filled
 if (isset($_POST['username'], $_POST['password'])) {
+
+ // Sanitize user inputs
+    $username = htmlspecialchars(trim($_POST['username']), ENT_QUOTES, 'UTF-8');
+    $password = htmlspecialchars(trim($_POST['password']), ENT_QUOTES, 'UTF-8');
+
+
+     // Validate email format
+    if (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        die('Invalid email format');
+    }
+
     // User Login
     verify_user($con, 'user', 'Email', 'Password', '../../html/home/home.html');
     
