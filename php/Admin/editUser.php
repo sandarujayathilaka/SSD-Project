@@ -107,6 +107,7 @@ if(isset($_POST["submit"])) {
     $mobile = $_POST["mobile"];
     $email = $_POST["email"];
     $pword = $_POST["password"];
+    
 
     $stmt = $con->prepare("UPDATE `user` SET `FullName` = ?, `Tel` = ?, `Email` = ?, `Password` = ? WHERE `ID` = ?");
     $stmt->bind_param("ssssi", $name, $mobile, $email, $pword, $id);

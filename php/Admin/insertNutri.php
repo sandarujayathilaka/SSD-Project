@@ -22,10 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nic = htmlspecialchars($_POST["nic"]);
     $uname = htmlspecialchars($_POST["username"]);
     $pword = htmlspecialchars($_POST["password"]);
+    $hashedPassword = password_hash($pword, PASSWORD_BCRYPT);
 
   
     $stmt = $con->prepare("INSERT INTO nutriacc (Nutri_Name, NIC, UserName, Pword) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $name, $nic, $uname, $pword);
+    $stmt->bind_param("ssss", $name, $nic, $uname, $hashedPassword);
 
     if ($stmt->execute()) {
         header("Location: ./admNutri.php");

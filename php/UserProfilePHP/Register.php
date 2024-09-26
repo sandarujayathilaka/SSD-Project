@@ -6,6 +6,11 @@ session_start([
     'cookie_samesite' => 'Strict' 
 ]);
 
+// Generate CSRF token if not set
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         die('Invalid CSRF token');
@@ -33,7 +38,7 @@ if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
     die("Invalid email format.");
 }
 
-// Hash the password
+
 $hashedPassword = password_hash($pass, PASSWORD_BCRYPT);
 
 // File upload handling
@@ -60,17 +65,12 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
     die("File not available or error during file upload.");
 }
 
-// Database connection
-$conn = new mysqli('localhost', 'root', '', 'iwt');
-if ($conn->connect_error) {
-    die("Connection Failed: " . $conn->connect_error);
-}
-
+require('config.php');
 
 $data = isset($_POST['data']) ? $_POST['data'] : [];
 $allData = implode(" ", array_map('htmlspecialchars', $data));
 
-$stmt = $conn->prepare("INSERT INTO user (Fname, Lname, FullName, Address, Tel, Email, Password, Profile, AllCat) 
+$stmt = $con->prepare("INSERT INTO user (Fname, Lname, FullName, Address, Tel, Email, Password, Profile, AllCat) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("sssssssss", $fName, $lName, $fullName, $fullADD, $Tel, $mail, $hashedPassword, $target_file, $allData);
 
@@ -82,7 +82,7 @@ if ($stmt->execute()) {
 }
 
 $stmt->close();
-$conn->close();
+$con->close();
     
     unset($_SESSION['csrf_token']);
 }

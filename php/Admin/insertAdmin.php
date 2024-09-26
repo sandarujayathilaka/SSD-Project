@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nic = htmlspecialchars($_POST["nic"]);
     $uname = htmlspecialchars($_POST["username"]);
     $pword = htmlspecialchars($_POST["password"]);
+    $hashedPassword = password_hash($pword, PASSWORD_BCRYPT);
 
    
     if (isset($_FILES["file"]) && $_FILES["file"]["error"] === UPLOAD_ERR_OK) {
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (move_uploaded_file($fileTempName, $target_file)) {
               
                 $stmt = $con->prepare("INSERT INTO adminacc (Admin_Name, NIC, UserName, Pword, Link) VALUES (?, ?, ?, ?, ?)");
-                $stmt->bind_param("sssss", $name, $nic, $uname, $pword, $target_file);
+                $stmt->bind_param("sssss", $name, $nic, $uname, $hashedPassword, $target_file);
 
                 if ($stmt->execute()) {
                     header("Location: ./adminAcc.php");

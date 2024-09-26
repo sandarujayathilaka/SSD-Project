@@ -7,7 +7,9 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -34,7 +36,8 @@ html {
   padding: 0 16px;
 }
 
-.container::after, .row::after {
+.container::after,
+.row::after {
   content: "";
   clear: both;
   display: table;
@@ -65,4 +68,12 @@ html {
     width: 100%;
     display: block;
   }
+}
+
+.centered {
+  text-align: center;
+}
+
+.card-image {
+  width: 200px;
 }

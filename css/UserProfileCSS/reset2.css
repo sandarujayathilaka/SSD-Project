@@ -1,0 +1,57 @@
+body {
+  background-image: url(../../images/UserProfileIMAGES/myUserBG.jpg);
+}
+input {
+  color: rgb(204, 0, 204);
+  border-radius: 14px;
+  background-color: rgb(246, 246, 246);
+  border: none;
+  outline: none;
+  box-shadow: 24px aqua;
+  padding: 14px 12px;
+  font-size: medium;
+  font-weight: 40px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.yo {
+  background-color: rgb(47, 234, 125);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 445px;
+  height: 315px;
+  border-radius: 14px;
+  margin-bottom: 20%;
+  margin-top: 8%;
+}
+.dept {
+  margin-top: 12px;
+  display: block;
+  margin-left: 85px;
+  margin-right: auto;
+  width: 40%;
+  height: 30px;
+  border-radius: 4px;
+  padding: 12px 4px;
+  margin-bottom: 10%;
+}
+h4 {
+  color: rgb(255, 255, 255);
+  padding: 14px 10px;
+  font-size: 20px;
+}
+
+.logo {
+  margin-top: -14px;
+}
+
+.account-available {
+  text-align: center;
+  margin-top: 1%;
+}
+
+.update-button {
+  margin-top: 20%;
+}

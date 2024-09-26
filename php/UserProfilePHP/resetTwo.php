@@ -5,9 +5,18 @@ session_start([
     'cookie_httponly' => true,   
     'cookie_samesite' => 'Strict' 
 ]);
-if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-    die('Invalid CSRF token'); // Stop the process if the token is invalid
+
+// Generate CSRF token if not set
+if (!isset($_SESSION['csrf_token'])) {
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
+
+// Check CSRF token safely
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+  die('Invalid CSRF token'); // Stop the process if the token is invalid
+}
+
+
 
 if (isset($_GET['message'])) {
     echo '<script type="text/javascript">alert("Data Successfully Updated")</script>';
@@ -17,10 +26,7 @@ if (isset($_GET['message'])) {
 $_SESSION["mail"] = $_POST['myMail'];
 $_SESSION["tp"] = $_POST['myMail'];
 
-$con = new mysqli("localhost", "root", "", "iwt");
-if ($con->connect_error) {
-    die("Connection failed: " . $con->connect_error);
-}
+require('config.php');
 
 $myMail = $_POST['myMail'];
 $myMobile = $_POST['myMobile'];
@@ -65,7 +71,8 @@ $con->close();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reset Password</title>
   <link rel="stylesheet" href="../../css/UserProfileCSS/header.css">
-  <style>
+  <link rel="stylesheet" href="../../css/UserProfileCSS/reset2.css">
+  <!-- <style>
     body {
       background-image: url(../../images/UserProfileIMAGES/myUserBG.jpg);
     }
@@ -110,7 +117,7 @@ $con->close();
       padding: 14px 10px;
       font-size: 20px;
     }
-  </style>
+  </style> -->
 </head>
 <body>
   <nav>
@@ -120,11 +127,11 @@ $con->close();
       <li><a href="../../html/userhtml/new 1.html">Help</a></li>
     </ul>
     <div id="banner">
-      <img src="../../images/logo.png" width="60px" style="margin-top: -14px;">
+      <img src="../../images/logo.png" width="60px" class="logo">
     </div>
   </nav>
 
-  <h4 style="text-align: center; margin-top: 1%;">Account Available <br><?=$myMail?></h4>
+  <h4 class="account-available">Account Available <br><?=$myMail?></h4>
   <form method='POST' action='LastUpdate.php'>
     <div class="yo">
       <div class="dept">
@@ -135,7 +142,7 @@ $con->close();
         <label id="label">Confirm Password </label>
         <input type='password' id='confirm_password' name='password' required size='25px'>
       </div>
-      <input type='Submit' name='summon' value='Update Password' size='26px' style="margin-top: 20%">
+      <input type='Submit' name='summon' value='Update Password' size='26px'  class="update-button">
     </div>
   </form>
 

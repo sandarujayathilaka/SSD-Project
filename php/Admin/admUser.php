@@ -76,7 +76,6 @@ try {
     echo "<th>Name</th>";
     echo "<th>Mobile</th>";
     echo "<th>Email</th>";
-    echo "<th>Password</th>";
     echo "<th>Action</th>";
     echo "</tr>";
 
@@ -87,7 +86,6 @@ try {
             echo "<td>" . htmlspecialchars($row['FullName']) . "</td>";
             echo "<td>" . htmlspecialchars($row['Tel']) . "</td>";
             echo "<td>" . htmlspecialchars($row['Email']) . "</td>";
-            echo "<td>" . htmlspecialchars($row['Password']) . "</td>";
             echo "<td>
                     <a id='deletelink' href='./deleteUser.php?id=" . urlencode($row['ID']) . "'>Delete</a>
                     <a id='editlink' href='./editUser.php?id=" . urlencode($row['ID']) . "'>Edit</a>

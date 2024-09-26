@@ -2,7 +2,7 @@
 
 if(isset($_GET['message'])){
 
-	echo'<script type="text/javascript">alert("Data Succesfully Updated")</script>';
+	echo'<script type="text/javascript" nonce="random123">alert("Data Succesfully Updated")</script>';
 }
 
 session_start([
@@ -20,14 +20,7 @@ if (!isset($_SESSION['loggedin'])) {
 		exit;
 }
 
-$DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'root';
-$DATABASE_PASS = '';
-$DATABASE_NAME = 'iwt';
-$con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-if (mysqli_connect_errno()) {
-	exit('Failed to connect to MySQL: ' . mysqli_connect_error());
-}
+require('config.php');
 
 $profile=$_SESSION['name'];
 		
@@ -48,90 +41,12 @@ $profile=$_SESSION['name'];
 		<meta charset="utf-8">
 		<title>Profile Page</title>
     	<link rel="stylesheet" href="../../css/UserProfileCSS/header.css">
-		<style>
-
-			th,td{
-				color: rgb(255, 255, 255);
-				margin-left: auto;
-				margin-right: auto;
-				width: 50%;	
-				background-color: rgb(15, 165, 55);	
-				line-height: 50px;
-				font-weight: bolder;
-				font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-				padding: 12px 5px;
-				
-				
-			}
-
-			tr{
-				line-height: 60px;
-				margin-bottom: 20px;
-			}
-
-			div.content{
-
-				margin-bottom: 20px;
-			}
-
-			table{
-				 /* display: block; */
-				margin-left: auto;
-				margin-right: auto;
-				width: 80%;
-				margin-bottom:9px;
-				margin-top: 5%;
-				text-align: center;
-				height: auto;
-				
-			}
-
-
-form {
-  border: 3px solid #f1f1f1;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 80%;
-  background-image: url(https://www.wallpapertip.com/wmimgs/3-36163_dark-blur.jpg);
-  color: white;
-  border-radius: 14px;
-  box-shadow: 0 0 8px  #669999; 
-  
-}
-
-
-.tag{
-	display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  text-align: center;
-  margin-top: 5%;
-
-
-}
-
-#profile{
-	border-radius: 100%;
-	width: 250px;
-	height: 250px;
-	box-shadow: 0 0 8px  #669999; 
-}
-
-h4{
-
-	margin-left: 12px;
-	 text-align: center;
-	 margin-top: 2%;
-
-}
-		</style>
+		<link rel="stylesheet" href="../../css/UserProfileCSS/profile.css" />
 
 	</head>
 	<body class="loggedin" >
 
-	<nav style="margin-bottom: 2%;">
+	<nav class="navbar">
 
 <ul>
 
@@ -161,7 +76,7 @@ h4{
 	<div class="tag">
 		<img  id="profile"src="<?=$image?>">
 		<br>
-		<h4 style="margin-left: 12px;"><?=$_SESSION['name']?></h4>
+		<h4 class="profile-name" ><?=$_SESSION['name']?></h4>
 
 	
 	</div>
@@ -200,8 +115,8 @@ h4{
 					</tr>
 					
 				</table>
-				<div style="text-align:center; margin-bottom: 10%;">
-					<a href="UserUpdate.php"><input type="button"  title="Chick here to Edit "style="padding: 24px 12px; width=20%;" class="Edit" value="Edit"></a>
+				<div class="edit-button-container">
+					<a href="UserUpdate.php"><input type="button"  title="Click here to Edit" class="Edit edit-button" value="Edit"></a>
 					</div>
 				</center>
 </form>
