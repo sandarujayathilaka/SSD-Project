@@ -61,7 +61,7 @@ $profile=$_SESSION['name'];
 	 <h1>#FOODOVEN</h1>
  </div>
  <div id="logbtn">
-	<a href="../../html/UserProfileHTML/Login.html"><button class="logL">Logout</button></a>
+	<a href="../UserProfilePHP/login.php"><button class="logL">Logout</button></a>
 	</div>
 	<div id="regbtn">
 	   <a href="#"><H class="logN"><?=$_SESSION['name']?></H></a>
