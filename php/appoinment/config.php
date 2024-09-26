@@ -2,7 +2,7 @@
 // Initialize the $errors array
 $errors = array();
 
-$con = new mysqli("localhost", "root", "root", "iwt");
+$con = new mysqli("localhost", "root", "", "iwt");
 
 // Check connection
 if ($con->connect_error) {
