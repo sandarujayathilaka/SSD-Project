@@ -122,7 +122,7 @@
                     die("Invalid CSRF token");
                 }
     
-                // Sanitize and validate input
+               
                 $name = htmlspecialchars($_POST["fname"]);
                 $email = htmlspecialchars($_POST["email"]);
                 $phone = htmlspecialchars($_POST["tp"]);

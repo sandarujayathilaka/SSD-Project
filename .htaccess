@@ -27,6 +27,19 @@ Options -Indexes
         form-action 'self'; \
         base-uri 'self';"
 
+    
+    Header set X-Content-Type-Options "nosniff"
+
 </IfModule>
+
+<FilesMatch "\.(ico|css|js|png|jpg|jpeg|svg|html|php)$">
+    Header set X-Content-Type-Options "nosniff"
+</FilesMatch>
+
+<Files "favicon.ico">
+    Header set X-Content-Type-Options "nosniff"
+</Files>
+
+
 
 AddType application/x-httpd-php .html
