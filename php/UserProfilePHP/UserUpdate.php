@@ -34,54 +34,7 @@ if (empty($_SESSION['csrf_token'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile</title>
     <link rel="stylesheet" href="../../css/UserProfileCSS/header.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        p {
-            text-align: center;
-            margin-top: 34px;
-        }
-        input {
-            color: rgb(204, 0, 204);
-            border-radius: 14px;
-            background-color: rgb(246, 246, 246);
-            border: none;
-            outline: none;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-            padding: 14px 12px;
-            text-align: center;
-            font-size: medium;
-            font-weight: bold;
-            margin-left: 2%;
-        }
-        #up {
-            margin-top: 12px;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: mediumspringgreen;
-            width: 20%;
-            height: 30px;
-            border-radius: 4px;
-            padding: 12px 14px;
-        }
-        form {
-            border: 3px solid #f1f1f1;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 60%;
-            background-image: url(https://www.wallpapertip.com/wmimgs/3-36163_dark-blur.jpg);
-            color: white;
-            border-radius: 14px;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-        }
-        #profile {
-            border-radius: 100%;
-            width: 250px;
-            height: 250px;
-        }
-    </style>
+    <link rel="stylesheet" href="../../css/UserProfileCSS/userUpdate.css">
 </head>
 <body>
 <nav>
@@ -93,7 +46,7 @@ if (empty($_SESSION['csrf_token'])) {
         <li><a href="../../html/userhtml/new 1.html">Help</a></li>
     </ul>
     <div id="banner">
-        <img src="../../images/logo.png" width="60px" style="margin-top: -14px;">
+        <img src="../../images/logo.png" width="60px" class="banner-img">
     </div>
     <div id="logbtn">
         <a href="../../php/UserProfilePHP/logout.php"><button class="logL">Logout</button></a>
@@ -115,7 +68,7 @@ if (empty($_SESSION['csrf_token'])) {
             <p>First Name <input type="text" name="fname" value="<?= htmlspecialchars($fname) ?>">&nbsp;&nbsp;&nbsp;
             Last Name <input type="text" name="lname" value="<?= htmlspecialchars($lname) ?>"></p>
 
-            <p>Address<br><input type="text" size="50px" style="padding: 24px 5px;" name="address" value="<?= htmlspecialchars($ad) ?>"></p>
+            <p>Address<br><input type="text" size="50px" class="address-input" name="address" value="<?= htmlspecialchars($ad) ?>"></p>
 
             <p>Mobile<br><input type="tel" name="tel" value="<?= htmlspecialchars($mobile) ?>"></p>
 
@@ -123,7 +76,7 @@ if (empty($_SESSION['csrf_token'])) {
 
             <p>Password<br><input type="password" name="password" value=""></p>
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-            <input type="submit" style="margin: 2% 50% 2% 47%; background-color: mediumspringgreen; color: black;" name="update" title="Update your Details" value="Update">
+            <input type="submit" class="update-input" name="update" title="Update your Details" value="Update">
         </form>
     </div>
 </div>

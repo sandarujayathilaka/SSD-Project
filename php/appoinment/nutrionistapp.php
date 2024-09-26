@@ -37,7 +37,7 @@ if (!isset($_SESSION['loggedin'])) {
 
 <p>Welcome back, <?=$_SESSION['name']?>!</p>
 
-<h1 style="margin-left:40% ;margin-top:80px">My Appointments</h1>
+<h1 class="nutri-title">My Appointments</h1>
 <br>
 
 <table class="table2">

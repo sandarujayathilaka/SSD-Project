@@ -92,7 +92,7 @@ if (isset($_GET['code'])) {
                 echo "<p>Full Name: $name</p>";
                 echo "<p>First Name: $first_name</p>";
                 echo "<p>Last Name: $last_name</p>";
-                echo "<img src='$profile_pic' alt='Profile Picture' style='width:100px;height:100px;'>";
+                echo "<img src='$profile_pic' alt='Profile Picture' height='100' width='100'>";
 
                 // User does not exist, create a new user
                 $stmt = $con->prepare('INSERT INTO user (Email, FullName, Fname, Lname, Address, Tel, Password, Profile) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');

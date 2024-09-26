@@ -89,7 +89,7 @@ $con->close();
         <input type="text" class="formele" id="username" name="username" required value="<?php echo $uname ?>"><br><br>
         <label class="formele">Password :</label><br><br>
         <input type="password" class="formele" id="password" name="password" required value="<?php echo $pword ?>"><br><br>
-        <img src="<?php echo $url ?>" alt="<?php echo $url ?>" style="width:100px;height:125px;"><br><br>
+        <img src="<?php echo $url ?>" alt="<?php echo $url ?>" height="125" width="100"><br><br>
         <input type="hidden" name="exurl" value="<?php echo $url ?>"><br><br>
         Profile Picture : <input type="file" id="img" name="file" required><br><br>
         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
