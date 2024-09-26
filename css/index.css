@@ -130,7 +130,7 @@ nav ul li a:hover{
 
 .icon ul li{
 
-    float:inline;
+    float: left;
     display: block;
 }
 

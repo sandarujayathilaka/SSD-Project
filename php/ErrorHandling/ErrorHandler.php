@@ -1,5 +1,4 @@
 <?php
-// Centralized error handling for the application
 
 // Custom error handler
 function customErrorHandler($errno, $errstr, $errfile, $errline) {

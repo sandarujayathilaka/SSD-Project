@@ -4,6 +4,8 @@ $username = "root";
 $password = "";
 $db="iwt";
 
+// Include the custom error handler
+require "../ErrorHandling/ErrorHandler.php";
 
 $con = new mysqli($servername, $username, $password,$db);
 
