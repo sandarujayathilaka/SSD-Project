@@ -51,7 +51,7 @@ if (!$result3) {
     </nav>
 </header>
 <body>
-    <h1 style="text-align: center; margin-top: 80px;">Nutritionist Information</h1>
+    <h1 class="info-title">Nutritionist Information</h1>
     <table class="table4">
         <thead>
             <tr>

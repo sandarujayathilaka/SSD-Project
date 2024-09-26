@@ -1,0 +1,60 @@
+body {
+  font-family: Arial, sans-serif;
+}
+p {
+  text-align: center;
+  margin-top: 34px;
+}
+input {
+  color: rgb(204, 0, 204);
+  border-radius: 14px;
+  background-color: rgb(246, 246, 246);
+  border: none;
+  outline: none;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  padding: 14px 12px;
+  text-align: center;
+  font-size: medium;
+  font-weight: bold;
+  margin-left: 2%;
+}
+#up {
+  margin-top: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: mediumspringgreen;
+  width: 20%;
+  height: 30px;
+  border-radius: 4px;
+  padding: 12px 14px;
+}
+form {
+  border: 3px solid #f1f1f1;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  background-image: url(https://www.wallpapertip.com/wmimgs/3-36163_dark-blur.jpg);
+  color: white;
+  border-radius: 14px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+#profile {
+  border-radius: 100%;
+  width: 250px;
+  height: 250px;
+}
+
+.banner-img {
+  margin-top: -14px;
+}
+
+.address-input {
+  padding: 24px 5px;
+}
+
+.update-input {
+  margin: 2% 50% 2% 47%;
+  background-color: mediumspringgreen;
+  color: black;
+}
