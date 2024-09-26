@@ -2,7 +2,12 @@
 // Initialize the $errors array
 $errors = array();
 
+// Include the custom error handler
+require "../ErrorHandling/ErrorHandler.php";
+
 $con = new mysqli("localhost", "root", "", "iwt");
+
+
 
 // Check connection
 if ($con->connect_error) {

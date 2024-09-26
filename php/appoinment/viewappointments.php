@@ -8,6 +8,7 @@ session_start([
     'cookie_samesite' => 'Strict' 
 ]);
 
+
 if (!isset($_SESSION['loggedin'])) {
     header('Location: ../../html/home/home.html'); 
     exit;

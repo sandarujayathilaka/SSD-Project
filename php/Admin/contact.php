@@ -9,8 +9,8 @@
         // require "../ErrorHandling/ErrorHandler.php";
         require "config.php";
 
-        // // Trigger a test error to check if custom error handler works
-        // trigger_error("Test error logging", E_USER_NOTICE);
+        // Trigger a test error to check if custom error handler works
+        trigger_error("Test error logging", E_USER_NOTICE);
     
         // Generate CSRF token if not already set
         if (!isset($_SESSION['csrf_token'])) {
