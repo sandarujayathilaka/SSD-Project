@@ -21,8 +21,8 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message'], ENT_QUOT
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reset Password</title>
   <link rel="stylesheet" href="../../css/UserProfileCSS/header.css">
-
-  <style>
+  <link rel="stylesheet" href="../../css/UserProfileCSS/reset.css">
+  <!-- <style>
     body {
       background-image: url(../../images/UserProfileIMAGES/myUserBG.jpg);
     }
@@ -78,7 +78,7 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message'], ENT_QUOT
       font-size: 20px;
       text-align: center;
     }
-  </style>
+  </style> -->
 </head>
 <body>
 <nav>
@@ -89,12 +89,12 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message'], ENT_QUOT
   </ul>
 
   <div id="banner">
-    <img src="../../images/logo.png" width="60px" style="margin-top: -14px;">
+    <img src="../../images/logo.png" width="60px" class="logo1">
   </div>
 </nav>
 
 <?php if (!empty($message)): ?>
-  <div style="text-align: center; color: red; margin: 20px;">
+  <div class="mssg">
     <?php echo $message; ?>
   </div>
 <?php endif; ?>
@@ -118,8 +118,8 @@ $message = isset($_GET['message']) ? htmlspecialchars($_GET['message'], ENT_QUOT
  <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
     <br><br><br>
-    <input type="reset" style="margin-left: 25%" name="reset" value="Reset">
-    <input type="submit" style="margin-left: 20%" name="submit" value="Check">
+    <input type="reset" class="reset-button"  name="reset" value="Reset">
+    <input type="submit" class="submit-button" name="submit" value="Check">
   </div>
 </form>
 

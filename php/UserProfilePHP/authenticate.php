@@ -6,23 +6,17 @@ session_start([
     'cookie_samesite' => 'Strict' 
 ]);
 
+// Generate CSRF token if not set
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+  }
+
 if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
     // Invalid CSRF token, handle the error
     die('Invalid CSRF token');
 }
 
-$DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'root';
-$DATABASE_PASS = '';
-$DATABASE_NAME = 'iwt';
-
-// Connect to MySQL
-$con = new mysqli($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-
-// Check connection
-if ($con->connect_error) {
-    die('Failed to connect to MySQL: ' . $con->connect_error);
-}
+require 'config.php';
 
 function verify_user($con, $table, $username_field, $password_field, $redirect_url) {
     if ($stmt = $con->prepare("SELECT $username_field, $password_field FROM $table WHERE $username_field = ?")) {

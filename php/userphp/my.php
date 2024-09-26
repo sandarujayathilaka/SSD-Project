@@ -39,11 +39,7 @@
 
 <center>
 <?php
- $con=new mysqli('localhost','root','','iwt');
- if($con->connect_error){
-	 die("connection field".$con->connect_error);
-	 
- }
+ require "config.php";
  
  $sql="select* from add_recipe";
  

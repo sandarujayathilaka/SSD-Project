@@ -9,17 +9,7 @@ session_start([
 $profile = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
 // echo htmlspecialchars($profile); 
 
-$DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'root';
-$DATABASE_PASS = '';
-$DATABASE_NAME = 'iwt';
-
-
-$con = new mysqli($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-
-if ($con->connect_error) {
-    die('Failed to connect to MySQL: ' . $con->connect_error);
-}
+require('config.php');
 
 // Check if the form was submitted
 if (isset($_POST['update'])) {

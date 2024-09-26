@@ -1,0 +1,119 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-image: url("https://img.freepik.com/free-photo/empty-wood-table-top-abstract-blurred-restaurant-cafe-background-can-be-used-display-montage-your-products_7191-916.jpg?w=740");
+  width: 100%;
+  background-size: 1000px 700px;
+}
+form {
+  border: 3px solid #f1f1f1;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  background-image: url(https://www.wallpapertip.com/wmimgs/3-36163_dark-blur.jpg);
+  color: white;
+  border-radius: 14px;
+  box-shadow: 0 0 8px #669999;
+}
+h2 {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  background-color: #d1d0d1;
+  color: rgb(19, 182, 4);
+  box-shadow: #f1f1f1;
+  width: 30%;
+  border-radius: 10px 1px;
+  padding: 12px 20px;
+  box-shadow: 0 0 13px 0 #007c1b;
+}
+input[type="text"],
+input[type="password"] {
+  width: 25%;
+  display: block;
+  margin-bottom: 5%;
+  margin-top: 1%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: small;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 3px 0 #669999;
+  outline: none;
+  background-color: #dddddd;
+}
+label {
+  width: 25%;
+  display: block;
+  margin-bottom: 4%;
+  margin-left: 44%;
+  margin-right: auto;
+  margin-bottom: 0%;
+}
+#submit {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+  background-color: #04aa6d;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 14px;
+  outline: none;
+}
+#acc {
+  text-align: center;
+  margin-top: 2%;
+  background-color: aliceblue;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+  border-radius: 5px;
+}
+button:hover {
+  opacity: 0.8;
+}
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+  border: none;
+  border-radius: 14px;
+  outline: none;
+}
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+}
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+}
+.container {
+  padding: 16px;
+}
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+@media screen and (max-width: 300px) {
+  span.psw {
+    display: block;
+    float: none;
+  }
+  .cancelbtn {
+    width: 100%;
+  }
+}
+.google-login {
+  text-align: center;
+  margin-top: 10px;
+}
+.cancel-container {
+  background-color: #f1f1f1;
+}
