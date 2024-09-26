@@ -129,16 +129,14 @@
                 $subject = htmlspecialchars($_POST["sub"]);
                 $gender = isset($_POST["gender"]) ? htmlspecialchars($_POST["gender"]) : '';
         
-                // Basic validation
                 if (empty($name) || empty($email) || empty($phone) || empty($subject) || empty($gender)) {
                     throw new Exception("All fields are required!");
                 }
     
-                // Database connection
                 $stmt = $con->prepare("INSERT INTO contacts (Name, Email, Phone, Subject, Gender) VALUES (?, ?, ?, ?, ?)");
                 $stmt->bind_param("sssss", $name, $email, $phone, $subject, $gender);
     
-                // Execute and check if successful
+               
                 if (!$stmt->execute()) {
                     throw new Exception("Error: " . $stmt->error);
                 }
@@ -148,10 +146,8 @@
                 $stmt->close();
     
             } catch (Exception $e) {
-                // Log the detailed error for debugging
                 error_log($e->getMessage());
             
-                // Display a generic error message to the user
                 echo '<div id="mesbox"><h3 id="message">An error occurred. Please try again later.</h3></div>';
 
             }

@@ -77,7 +77,6 @@ try {
     echo "<th>Name</th>";
     echo "<th>NIC</th>";
     echo "<th>Username</th>";
-    echo "<th>Password</th>";
     echo "<th>Action</th>";
     echo "</tr>";
 
@@ -88,7 +87,6 @@ try {
             echo "<td>" . htmlspecialchars($row["Nutri_Name"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["NIC"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["UserName"]) . "</td>";
-            echo "<td>" . htmlspecialchars($row["Pword"]) . "</td>";
             echo "<td>";
             echo "<a id='deletelink' href='./deleteNutri.php?id=" . urlencode($row['ID']) . "'>Delete</a>";
             echo " <a id='editlink' href='./editNutri.php?id=" . urlencode($row['ID']) . "'>Edit</a>";

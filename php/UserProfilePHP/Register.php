@@ -33,7 +33,7 @@ if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
     die("Invalid email format.");
 }
 
-// Hash the password
+
 $hashedPassword = password_hash($pass, PASSWORD_BCRYPT);
 
 // File upload handling
