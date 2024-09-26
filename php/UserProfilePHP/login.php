@@ -1,7 +1,7 @@
 <?php
 session_start([
     'cookie_lifetime' => 86400,    // Session cookie lifetime of 1 day
-    'cookie_secure' => true,       // Send cookie only over HTTPS
+    'cookie_secure' => false,       // Send cookie only over HTTPS
     'cookie_httponly' => true,     // Prevent JavaScript access to session cookies
     'cookie_samesite' => 'Strict', // Strict policy to prevent CSRF
 ]);

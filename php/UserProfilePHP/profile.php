@@ -7,7 +7,7 @@ if(isset($_GET['message'])){
 
 session_start([
     'cookie_lifetime' => 86400,  
-    'cookie_secure' => true,     
+    'cookie_secure' => false,     
     'cookie_httponly' => true,   
     'cookie_samesite' => 'Strict' 
 ]);
