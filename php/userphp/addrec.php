@@ -36,9 +36,30 @@ if (empty($_SESSION['csrf_token'])) {
      <div id="banner">
         <img src ="../../images/Untitled-4.png" width ="63px" length="63px"
      </div>
-   <div id="logbtn">
-    <a href="#"><button class="log">Log out</button></a>
+     <div id="logbtn">
+          <?php
+              // Check if the user is logged in
+              if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
+                  // Show log out button if the user is logged in
+                  echo '<a href="../UserProfilePHP/logout.php"><button class="log">Log out</button></a>';
+              } else {
+                  // Show log in button if the user is not logged in
+                  echo '<a href="../UserProfilePHP/login.php"><button class="log">Log in</button></a>';
+              }
+          ?>
+      </div>
+
+      <div id="regbtn">
+          <?php
+              // Show register button only if the user is not logged in
+              if (!isset($_SESSION['name']) || empty($_SESSION['name'])) {
+                  echo '<a href="../../html/UserProfileHTML/Register.html"><button class="log">Register</button></a>';
+              }
+          ?>
+      </div>
    </div>
+
+
    
 </nav>
 <br></br>
@@ -50,7 +71,7 @@ if (empty($_SESSION['csrf_token'])) {
 <h1 class="my">My recipe - Add a recipe</h1><br></br>
 </center>
 <div id="F">
-<form action="../../php/userphp/connect.php" method="POST">
+<form action="../../php/userphp/addrecipe.php" method="POST"  enctype="multipart/form-data">
 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
 <?php
@@ -69,8 +90,8 @@ $result=$con->query($sql);
 
 echo ("<label class='formele'>"."-Category :"."</label>"."<br>"."<br>");
 
-echo("<select name='select1' class='t'>");
-
+echo("<select name='select1' class='t' required>");
+echo("<option value='' disabled selected>Select a category</option>"); // Placeholder option
 
 
 if($result->num_rows>0){
@@ -80,10 +101,8 @@ if($result->num_rows>0){
    while($row=$result->fetch_assoc()){
 
 
+   echo("<option value='" . htmlspecialchars($row['Category']) . "'>" . htmlspecialchars($row['Category']) . "</option>");
 
-   echo("<option value=".$row['Category'].">".$row['Category']."</option>");
-
- 
 
    }
 
@@ -101,17 +120,16 @@ echo("</select>");
 
 ?>
 <br></br>
- -User name :<br></br>
-   <input class="us" type="text" placeholder="Add your name" name="user_name"></br></br>
+
  -Title :</br></br>
-   <input class="e" type="text" placeholder="Recipe title" name="Title"></br></br>
+   <input class="e" type="text" placeholder="Recipe title" name="Title" required title="Please enter a title for your recipe." maxlength="100"></br></br>
  -Cooking Time :</br></br>
-   <input class="w" type="text" placeholder="Time Duration" name="Time"></br></br>
+   <input class="w" type="text" placeholder="Time Duration" required name="Time" title="Please specify the cooking time." pattern="^\d+\s*(minutes|hours)?$"></br></br>
  -Main ingredients :</br></br>
-   <textarea class="ing" rows="10" cols="35" name="Ingredients"></textarea></br></br>
+   <textarea class="ing" rows="10" cols="35" name="Ingredients" required title="Please list the main ingredients."></textarea></br></br>
  -Description :</br></br>
-   <textarea class="des" rows="8" cols="50" name="Description"></textarea></br></br>
- -Upload an image: <input class="up"type="file" name="Images" ><br></br>
+   <textarea class="des" rows="8" cols="50" name="Description" required title="Please provide a description of the recipe."></textarea></br></br>
+ -Upload an image: <input class="up"type="file" name="Images" accept="image/*" required title="Please upload an image of the recipe." ><br></br>
   <input class ="y" type="Submit" name="submit"> <input class="y" type="Reset"> <br></br>
 
 </form>
@@ -155,30 +173,3 @@ echo("</select>");
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

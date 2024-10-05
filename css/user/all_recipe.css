@@ -107,10 +107,9 @@ body {
 
 #footer {
   background-color: gray;
-  position: absolute;
+  /* position: absolute; */
   height: 150px;
   bottom: 0px;
-  left: 0px;
   width: 100%;
 }
 
@@ -187,8 +186,51 @@ body {
   margin-top: -30px;
 }
 
-#btn-container {
+.top-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #800000;
+}
+
+/* Add some basic styling for the card view */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.recipe-card {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.recipe-card h2 {
+  font-size: 1.5em;
+  margin: 10px;
+}
+
+.recipe-card p {
+  margin: 10px;
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+
+.recipe-card:hover {
+  transform: scale(1.05);
 }

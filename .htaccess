@@ -19,13 +19,14 @@ Options -Indexes
     # Content Security Policy Header
     Header set Content-Security-Policy "default-src 'self'; \
         script-src 'self' https://www.google-apis.com 'nonce-random123'; \
-        style-src 'self' https://cdnjs.cloudflare.com https://use.fontawesome.com; \
+        style-src 'self' https://cdnjs.cloudflare.com https://use.fontawesome.com https://fonts.googleapis.com; \
         img-src 'self' data: https://*.cloudflare.com https://img.freepik.com https://i.pinimg.com https://www.wallpapertip.com https://i.pinimg.com https://lh3.googleusercontent.com https://platform-lookaside.fbsbx.com; \
         connect-src 'self'; \
         font-src 'self' https://fonts.googleapis.com; \
         frame-ancestors 'none'; \
         form-action 'self'; \
         base-uri 'self';"
+
 
     # X-Content-Type-Options Header
     Header always set X-Content-Type-Options "nosniff"

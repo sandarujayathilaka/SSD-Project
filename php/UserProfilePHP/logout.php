@@ -31,6 +31,6 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 
-header('Location: ../Html/login.html');
+header('Location: ../UserProfilePHP/login.php');
 exit();
 ?>

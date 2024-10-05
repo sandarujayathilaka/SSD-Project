@@ -1,5 +1,6 @@
 <?php
 
+
 if(isset($_GET['message'])){
 
 	echo'<script type="text/javascript" nonce="random123">alert("Data Succesfully Updated")</script>';
@@ -17,6 +18,7 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 if (!isset($_SESSION['loggedin'])) {
+		header('Location: ../../html/home/home.html'); 
 		exit;
 }
 
@@ -61,7 +63,7 @@ $profile=$_SESSION['name'];
 	 <h1>#FOODOVEN</h1>
  </div>
  <div id="logbtn">
-	<a href="../UserProfilePHP/login.php"><button class="logL">Logout</button></a>
+	<a href="../UserProfilePHP/logout.php"><button class="logL">Logout</button></a>
 	</div>
 	<div id="regbtn">
 	   <a href="#"><H class="logN"><?=$_SESSION['name']?></H></a>

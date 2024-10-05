@@ -13,7 +13,19 @@
         <ul>
             <li><a href="main.php">Add Advertisement</a></li>
             <li><a href="addeditview_advertisement.php">View Existing</a></li>
-            <li><a href="../Admin/logout.php">Logout</a></li>
+            <li>
+                <!-- <a href="../Admin/logout.php">Logout</a> -->
+                <?php
+                    // Check if the user is logged in
+                    if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
+                        // Show log out button if the user is logged in
+                        echo '<a href="../UserProfilePHP/logout.php">Log out</a>';
+                    } else {
+                        // Show log in button if the user is not logged in
+                        echo '<a href="../UserProfilePHP/login.php">Log in</a>';
+                    }
+                ?>
+            </li>
         </ul>
         <div id="banner">
             <img src="../../Images/logo.png"  class="logo1">

@@ -25,36 +25,72 @@
          <img src ="../../images/Untitled-4.png" width ="63px" length="63px">
      </div>
    
+     <div id="logbtn">
+          <?php
+              // Check if the user is logged in
+              if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
+                  // Show log out button if the user is logged in
+                  echo '<a href="../UserProfilePHP/logout.php"><button class="log">Log out</button></a>';
+              } else {
+                  // Show log in button if the user is not logged in
+                  echo '<a href="../UserProfilePHP/login.php"><button class="log">Log in</button></a>';
+              }
+          ?>
+      </div>
+
+      <div id="regbtn">
+          <?php
+              // Show register button only if the user is not logged in
+              if (!isset($_SESSION['name']) || empty($_SESSION['name'])) {
+                  echo '<a href="../../html/UserProfileHTML/Register.html"><button class="log">Register</button></a>';
+              }
+          ?>
+      </div>
 </nav>
 
 
 
 <br></br>
 
+<div id="btn-container">
 <a href="../../php/userphp/addrec.php"><button class = "con">Add recipes></button></a>
+<a href="../../php/userphp/all.php"><button class = "con">All recipes</button></a>
+</div>
 
 <div class="titl"><center>
-<h1>-Recipes-</h1>
+<h1>-My Recipes-</h1>
 </center></div></br>
 
 <center>
 <?php
+session_start([
+    'cookie_lifetime' => 86400,  
+    'cookie_secure' => false,     
+    'cookie_httponly' => true,   
+    'cookie_samesite' => 'Strict' 
+]);
+
  require "config.php";
  
- $sql="select* from add_recipe";
- 
- $take=$con->query($sql);
+    $stmt = $con->prepare("SELECT * FROM add_recipe WHERE user_name = ?");
+    if ($stmt === false) {
+        die('Prepare failed: ' . htmlspecialchars($con->error)); // Error handling
+    }
+    $stmt->bind_param("s", $_SESSION['name']);
+    $stmt->execute();
+    $take = $stmt->get_result();
  
  
 	 echo ("<table id='table1' cellpadding='1' border='5'>");
 	 echo ("<tr>");
 	  echo ("<th>"."Recipe ID"."</th>");
 	 echo ("<th>"."Category"."</th>");
-	 echo ("<th>"."user_name"."</th>");
-	 echo ("<th>"."Titlte"."</th>");
+	 echo ("<th>"."Email"."</th>");
+	 echo ("<th>"."Title"."</th>");
 	 echo ("<th>"."Time"."</th>");
 	 echo ("<th>"."Ingredients"."</th>");
 	  echo ("<th>"."Description"."</th>");
+      echo ("<th>"."Image"."</th>");
 	  echo ("<th>"."Action"."</th>");
 	 if($take->num_rows>0){
 	 while($row=$take->fetch_assoc()){
@@ -68,12 +104,17 @@
 		 echo("<td>".$row['Time']."</td>");
 		 echo("<td>".$row['Ingredients']."</td>");
 		 echo("<td>".$row['Description']."</td>");
-		 echo("<td>"."<a id='deletelink' href=./recipedelete.php?id=".$row['Recipe_ID'].">"."Delete or"."</a>"."<a id='editlink' href=./editrecipe.php?id=".$row['Recipe_ID'].">"." update"."</a>"."</td>");
-		  
-		 
+         echo "<td><img src='" . htmlspecialchars($row['Images']) . "' alt='Recipe Image' height='100px'></td>"; // Adjust width/height as needed
+
+
+		 echo "<td>
+                <a id='editlink' href='./editrecipe.php?id=".$row['Recipe_ID']."'>Edit</a>
+               
+                <a id='deletelink' class='delete-recipe' href='./recipedelete.php?id=".$row['Recipe_ID']."'>Delete</a> 
+            </td>";
 	 }
 	 echo "</table>";
- }
+ }  
  ?>
 </center> 
 <footer id="footer">
@@ -107,6 +148,24 @@
     </footer-->
  
 </body>
+
+<script nonce="random123">
+    document.addEventListener('DOMContentLoaded', function () {
+        // Select all delete links
+        const deleteLinks = document.querySelectorAll('.delete-recipe');
+        
+        // Loop through all delete links and attach event listeners
+        deleteLinks.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                // Prevent default navigation if confirmation is canceled
+                if (!confirm('Are you sure you want to delete this recipe?')) {
+                    event.preventDefault(); // Stop the navigation
+                }
+            });
+        });
+    });
+</script>
+
 
 </html>
 
